@@ -2,19 +2,17 @@
 	import {
 		Footer,
 		FooterCopyright,
-		FooterLinkGroup,
-		FooterLink,
 		FooterBrand,
 		FooterIcon
 	} from 'flowbite-svelte';
-	import Logo from '$lib/images/logo.png';
+	import Logo from '$lib/images/your-logo.png';
 </script>
 
 <Footer footerType="socialmedia" class="bottom-0">
 	<hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
 	<div class="sm:flex sm:items-center sm:justify-between">
-		<FooterBrand href="https://ubtiinc.com" src={Logo} alt="UBTI Logo" name="UBTI" />
-		<FooterCopyright href="/" by="UB Technology Innovations™" />
+		<FooterBrand href="https://ubtiinc.com" src={Logo} alt="Your Logo" name="Company" />
+		<FooterCopyright href="/" by="Your Company Name™" />
 		<div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
 			<FooterIcon href="/" class="text-gray-400 hover:text-gray-900">
 				<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"

@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import logo from '$lib/images/ubti-logo.png';
+	import logo from '$lib/images/your-logo.png';
 	import Cookies from 'js-cookie';
 	import { Alert, Button, Spinner } from 'flowbite-svelte';
 	import { client } from '$lib/common/DF/sdk';
