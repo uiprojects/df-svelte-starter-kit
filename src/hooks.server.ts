@@ -1,6 +1,6 @@
 import type { Handle } from "@sveltejs/kit"
 import { sequence } from "@sveltejs/kit/hooks"
-import { client } from '$lib/common/DF/sdk'
+import { client } from '$lib/server/DF/sdk'
 // import { env } from '$env/dynamic/private'
 // import * as Sentry from "@sentry/sveltekit";
 // import crypto from 'crypto';
