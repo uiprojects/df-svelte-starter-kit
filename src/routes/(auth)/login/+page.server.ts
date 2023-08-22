@@ -1,6 +1,4 @@
-import { env } from '$env/dynamic/private'
 import { client } from '$lib/server/DF/sdk'
-import Cookies from 'js-cookie';
 export const actions = {
     submit: async ({ request, url, locals }) => {
         const data = await request.formData();
@@ -9,7 +7,7 @@ export const actions = {
         try {
             response = await client.getAuthService().login({ username: username, password: password })
             if (response.StatusCode === 200) {
-                
+
                 return { 'status': 'SUCCESS', "response": response, message: "Login Successfull!" }
             }
             else {

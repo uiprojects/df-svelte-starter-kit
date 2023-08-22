@@ -4,5 +4,4 @@ import { client } from '$lib/server/DF/sdk';
 
 export const load = async ({ url, params, request, route, fetch, locals }) => {
 
-    
 }
