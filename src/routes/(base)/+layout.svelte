@@ -26,7 +26,8 @@
 		Dropdown,
 		DropdownItem,
 		Spinner,
-		Button
+		Button,
+		Chevron
 	} from 'flowbite-svelte';
 	import { Toast } from '$lib/components/Toast';
 	import { sineIn } from 'svelte/easing';
@@ -38,8 +39,8 @@
 		img: yourlogo
 	};
 	export let data;
-    
-	const user = data.user 
+
+	const user = data.user;
 	const error = data.error;
 	$: activeUrl = $page.url.pathname;
 	let transitionParams = {
@@ -60,9 +61,7 @@
 		drawerHidden = true;
 		activateClickOutside = true;
 	}
-	let menuNav = [ { appMenuLabel : 'Home'  , appMenuActionURL : '/' } ,
-	 {appMenuLabel : 'About'  , appMenuActionURL : '/about'} , 
-	 { appMenuLabel : 'Admin'  , appMenuActionURL : 'admin'} ]
+
 	onMount(() => {
 		if (width >= breakPoint) {
 			drawerHidden = false;
@@ -81,7 +80,16 @@
 				toTopButton.classList.add('hidden');
 			}
 		};
+		document.addEventListener('click', handleClickOutside);
+		return () => {
+			document.removeEventListener('click', handleClickOutside);
+		};
 	});
+
+	const handleClickOutside = (event: any) => {
+		hoverDropdown = false;
+	};
+
 	const toggleSide = () => {
 		if (width < breakPoint) {
 			drawerHidden = !drawerHidden;
@@ -112,9 +120,7 @@
 			Welcome, User
 		</Button>
 		<NavHamburger on:click={toggle} class="w-full md:flex md:w-auto md:order-1" /> -->
-		<Avatar class="acs" >
-
-		</Avatar>
+		<Avatar class="acs" />
 		<Dropdown triggeredBy=".acs">
 			<div slot="header" class="px-4 py-2">
 				<span class="block text-sm text-gray-900 dark:text-white">{user.UserName}</span>
@@ -133,21 +139,43 @@
 	</Dropdown> -->
 
 	<NavUl {hidden} divClass="w-full md:flex md:w-auto">
-	{#each Object.entries(menuNav) as [key, value] }
-
-		<NavLi
-			id="nav-menu"
-			activeClass="bg-white !text-primary-100 hover:bg-white"
-			class="group cursor-pointer !p-1 text-white hover:!text-white"
-			href={value.appMenuActionURL}
-		>
-			{value.appMenuLabel}     
-	   </NavLi>
-
-	{/each}
-
+		{#each Object.entries(data.appMenus) as [key, value]}
+			{#if data.appMenus[key].childMenus.length == 0 && data.appMenus[key].ParenAppMenuID == 0}
+				<NavLi
+					id="nav-menu{value.AppMenuID}"
+					activeClass="bg-white !text-primary-100 hover:bg-white"
+					class="group cursor-pointer !p-1 text-white hover:!text-white"
+					href={value.AppMenuActionURL}
+				>
+					{value.AppMenuLabel}
+				</NavLi>
+			{:else if data.appMenus[key].ParenAppMenuID == 0}
+				<NavLi
+					id="nav-menu{value.AppMenuID}"
+					activeClass="bg-white !text-primary-100 hover:bg-white"
+					class="cursor-pointer !p-1 text-white hover:!text-white"
+					href={value.AppMenuActionURL}
+					on:mouseover={() => (hoverDropdown = true)}
+				>
+					<Chevron aligned>
+						{value.AppMenuLabel}
+					</Chevron>
+				</NavLi>
+				<Dropdown
+					bind:open={hoverDropdown}
+					id="dropdownHover"
+					triggeredBy="#nav-menu{value.AppMenuID}"
+					class="w-44 z-20"
+				>
+					{#each Object.entries(data.appMenus[key].childMenus) as [key, value]}
+						<DropdownItem href={value.AppMenuActionURL}>
+							{value.AppMenuLabel}
+						</DropdownItem>
+					{/each}
+				</Dropdown>
+			{/if}
+		{/each}
 	</NavUl>
-
 </Navbar>
 
 <Drawer
