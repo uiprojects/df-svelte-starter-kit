@@ -1,5 +1,5 @@
 import { env } from '$env/dynamic/private'
-import { client } from '$lib/common/DF/sdk'
+import { client } from '$lib/server/DF/sdk'
 export const actions = {
     submit: async ({ request, url, locals }) => {
         const data = await request.formData();
