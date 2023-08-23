@@ -1,4 +1,3 @@
-import { env } from '$env/dynamic/private'
 import { client } from '$lib/server/DF/sdk'
 import { error } from '@sveltejs/kit'
 export const load = async ({ url, params, request, route, fetch, locals }) => {
@@ -11,5 +10,4 @@ export const load = async ({ url, params, request, route, fetch, locals }) => {
     else {
         throw error(403, 'You are not allowed to access this page!!');
     }
-
 }
