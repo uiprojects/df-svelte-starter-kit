@@ -1,14 +1,12 @@
-import { env } from '$env/dynamic/private'
 import { client } from '$lib/server/DF/sdk'
-import { error, redirect } from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
 export const load = async ({ url, params, request, route, fetch, locals }) => {
     client.setAuthUser(locals.user)
-    let appMenus = await client.getApplicationRoleService().getAllAppMenus()
-    let activeMenu = appMenus.find(x => x.AppMenuActionURL.includes(url.pathname))
-    if (activeMenu) {
+    let response = await client.getApplicationRoleService().isMenuAuthorized(url.pathname)
+    if (response.isAuthorized) {
         return { message: 'starter kit' }
     }
     else {
-        throw error(403, 'Enhance your calm');
+        throw error(response.status, 'You are not allowed to access this page!!');
     }
 }
