@@ -5,8 +5,8 @@ import { client } from '$lib/server/DF/sdk'
 // import * as Sentry from "@sentry/sveltekit";
 // import crypto from 'crypto';
 
-
-const auth: Handle = async ({ event, resolve }) => {
+/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
     const unProtectedRoutes = ['/forgot-password', '/login']
     if (!event.cookies.get('token') && !unProtectedRoutes.includes(event.url.pathname)) {
         return new Response('Redirect', { status: 303, headers: { Location: '/login' } });
@@ -23,11 +23,12 @@ const auth: Handle = async ({ event, resolve }) => {
     return resolve(event)
 }
 
-const ii8: Handle = async ({ event, resolve }) => {
-    return resolve(event)
-}
+// const ii8: Handle = async ({ event, resolve }) => {
+//     return resolve(event)
+// }
 
-export const handle = sequence(auth, ii8)
+// export const handle = sequence(auth)
+
 
 
 // Sentry.init({

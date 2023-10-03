@@ -1,11 +1,16 @@
 import { client } from '$lib/server/DF/sdk';
+import { error } from '@sveltejs/kit';
 
 
-export async function load({ fetch, params, locals }) {
+export async function load({ url, fetch, params, locals }) {
 
     client.setAuthUser(locals.user)
 
-    client.getApplicationRoleService().setUserToken(locals.user.Token)
+    // client.getApplicationRoleService().setUserToken(locals.user.Token)
+    let response = await client.getApplicationRoleService().isMenuAuthorized(url.pathname)
+    if (!response.isAuthorized) {
+        throw error(response.status, 'You are not allowed to access this page!!');
+    }
 
     try {
         const response = await client.getApplicationRoleService().getAllAppMenus()
