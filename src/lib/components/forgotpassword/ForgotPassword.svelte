@@ -1,5 +1,5 @@
 <script lang="ts">
-	import logo from '$lib/images/ubti-logo.png';
+	import yourlogo from '$lib/images/your-logo.png';
 	import { Alert, Button, Helper, Input, Label, Spinner } from 'flowbite-svelte';
 	import { fade } from 'svelte/transition';
 
@@ -14,7 +14,7 @@
 		href="https://ubtiinc.com"
 		class="flex items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white"
 	>
-		<img class="w-90 h-20 mr-2" src={logo} alt="UBTI" />
+		<img class="w-90 h-20 mr-2" src={yourlogo} alt="UBTI" />
 	</a>
 	<div
 		class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
@@ -69,6 +69,7 @@
 					type="submit"
 					color="primary"
 					size="xs"
+					disabled={loading}
 				>
 					Submit
 					{#if loading}

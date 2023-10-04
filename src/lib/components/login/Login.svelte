@@ -3,46 +3,8 @@
 	import { Alert, Button, Helper, Input, Label, Spinner } from 'flowbite-svelte';
 	import { fade } from 'svelte/transition';
 
-	export let password, username, loading, messages, loginForm;
-
-	// $: if(errorMessage != ''){
-	// 		setTimeout( () => {
-	// 			errorMessage = null
-	// 		} ,7000  )
-	// 	}
-
-	// const login = async () => {
-	// 	loading = true;
-
-	// try {
-	// 	const response = await client.getAuthService().login({ username, password });
-	// 	if (response.Result.TenantID != env.PUBLIC_DF_TENANTID) {
-	// 		errorMessage = `You are not a member of ${response.Result.TenantName} Tenant, Please contact your Tenant Administrator.`;
-	// 		loading = false;
-	// 	} else if (response.StatusCode == 200) {
-	// 		Cookies.set('df_user', JSON.stringify(response?.Result), {
-	// 			expires: new Date(response.Result.ExpiresUtc)
-	// 		});
-
-	// 		Cookies.set('token', response.Result.Token, {
-	// 			expires: new Date(response?.Result?.ExpiresUtc)
-	// 		});
-
-	// 		loading = false;
-	// 		errorMessage = null;
-	// 		goto('/', { invalidateAll: true });
-	// 	} else {
-	// 		loading = false;
-	// 		errorMessage = 'Please check your credentials and try again!!';
-	// 	}
-	// } catch (error) {
-	// 	loading = false;
-	// 	console.log(error);
-	// 	errorMessage = 'Please check your credentials and try again!!';
-	// }
-
-	// password = '';
-	// };
+	export let password, username, loading: boolean, messages, loginForm;
+	
 </script>
 
 <div class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0">
@@ -147,6 +109,7 @@
 					type="submit"
 					color="primary"
 					class="text-whitecus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+					disabled={loading}
 				>
 					{#if loading}
 						<Spinner class="mr-3" size="4" color="white" />

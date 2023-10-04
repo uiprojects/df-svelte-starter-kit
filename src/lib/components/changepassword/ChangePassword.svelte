@@ -111,6 +111,7 @@
 					type="submit"
 					color="primary"
 					size="xs"
+					disabled={loading}
 				>Submit
 					{#if loading}
 						<Spinner class="ml-3" size="4" color="white" />
@@ -119,7 +120,7 @@
 					type="button"
 					color="alternative"
 					size="xs"
-                    href="/login"
+                    href="/"
 				>Go Back
 					</Button>
 			</div>
