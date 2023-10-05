@@ -1,22 +1,63 @@
-# create-svelte
+# DF Static Template
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+<div align="center">
 
-## Creating a project
+![TypeScript](https://img.shields.io/badge/TypeScript-%23323330.svg?style=for-the-badge&logo=typescript&logoColor=%23F7DF1E)
+![CSS3](https://img.shields.io/badge/NPM-%231572B6.svg?style=for-the-badge&logo=npm)
+![Azure](https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white)
+![Svelte](https://img.shields.io/badge/svelte-%23E34F26.svg?style=for-the-badge&logo=svelte&logoColor=white)
+![tailwindcss](https://img.shields.io/badge/tailwind-%231572B6.svg?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
-If you're seeing this, you've probably already done this step. Congrats!
+</div>
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+This application template can be used as a starter kit for building Diligence Fabric Framework based applications with the enhanced security and control provided by the DF.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Technology Stack](#technology-stack)
+- [Setup](#setup)
+- [Build](#building)
+- [Feedback](#feedback)
+
+
+## Prerequisites
+
+- Windows, Mac or Linux
+- Node >= 18
+- Git (Version Control)
+
+## Technology Stack
+
+- **FrontEnd**
+    - Svelte
+    - Tailwind CSS
+    - Flowbite Svelte (May get removed in future)
+
+## Setup
+
+1. create or generate a new repository using the below steps.
+
+    - Go to https://github.com/new?template_name=df-svelte-starter-kit&template_owner=uiprojects
+    - Fill all required fields and hit `create repository`
+2. Once done, clone your repository in your local machine
+
+3. Install the packages
+
+    ```sh
+    npm install
+    ```
+4. Create a new branch in local
+
+
+    ```sh
+    git checkout -b <your-new-branch-name>
+    ```
+5. Update/create .env file at project root level (You can copy the contents from `env.sample`)
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've cloned a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
@@ -36,3 +77,14 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at nanthakumar.j@ubtiinc.com
+
+<div style="background-color: white">
+
+![Logo](https://149510500.v2.pressablecdn.com/wp-content/uploads/2020/11/UBTI-Logo_Secondary-02.png)
+
+</div>
