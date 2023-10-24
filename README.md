@@ -55,6 +55,23 @@ This application template can be used as a starter kit for building Diligence Fa
     ```
 5. Update/create .env file at project root level (You can copy the contents from `env.sample`)
 
+## How to upgrade the template? (Manual Process)
+
+1. For now, Upgrading or Template Sync would be a manual process. But we will guide you throughout the process.
+
+2. You need to manually copy paste all the folders/files from the template repo to your application as shown/given below.
+    - [/src/lib/components](/src/lib/components/)
+    - [/src/lib/server/DF](/src/lib/server/DF/)
+    - [/src/routes/(dfauth)](/src/routes/(dfauth)/)
+    - [/src/routes/(base)/+layout.server.ts](/src/routes/(base)/+layout.server.ts)
+    - [/src/routes/(base)/+layout.svelte](/src/routes/(base)/+layout.svelte)
+
+3. Make sure to install the DF SDK latest version by running the following command
+
+    ```sh
+    npm install @ubti\diligence-fabric-sdk@latest
+    ```
+
 ## Developing
 
 Once you've cloned a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
