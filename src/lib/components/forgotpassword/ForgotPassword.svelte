@@ -1,26 +1,51 @@
 <script lang="ts">
-	import yourlogo from '$lib/images/your-logo.png';
+	import logo from '$lib/images/your-logo.png';
 	import { Alert, Button, Helper, Input, Label, Spinner } from 'flowbite-svelte';
 	import { fade } from 'svelte/transition';
 
 	export let email, loading: boolean, messages, forgotPasswordform;
 </script>
 
-<div class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0">
+<style type="text/css">
+	.fade-in-from-top {
+	  position: relative;
+	  animation-name: fadeInFromTop;
+	  animation-duration: 0.4s;
+	  animation-fill-mode: both;
+	}
+	.fade-in-from-top-delay-1 {
+	  position: relative;
+	  animation: fadeInFromTop;
+	  animation-duration: 0.4s;
+	  animation-delay: 0.3s;
+	  animation-fill-mode: both;
+	}
+	@keyframes fadeInFromTop {
+	  from {
+		top: -15px;
+		opacity: 0;
+	  }
+	  to {
+		top: 0px;
+		opacity: 1;
+	  }
+	}
+</style>
+<div class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0 fade-in-from-top">
 	<a
 		href="https://ubtiinc.com"
 		class="flex items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white"
 	>
-		<img class="w-90 h-20 mr-2" src={yourlogo} alt="UBTI" />
+		<img class="w-90 h-20 mr-2" src={logo} alt="UBTI" />
 	</a>
 	<div
-		class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+		class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 fade-in-from-top-delay-1"
 	>
-		<div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+		<div class="p-6 space-y-4 md:space-y-6 sm:p-8" style="height: 400px;">
 			<h1
 				class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
 			>
-				Forgot Password
+				Forgot Password?
 			</h1>
 			{#if messages.toggle}
 				<Alert border color={messages.color} dismissable>
@@ -42,13 +67,28 @@
 				</Alert>
 			{/if}
 			<div>
-				<Label for="email" class="block mb-2">Your Email</Label>
+				<p class="text-sm">
+					<i>
+						If you forgot your password, enter the email address associated
+						with your account below and press Submit. You will receive an
+						email at that address to restore access.
+					</i>
+				</p>
+			</div>
+			<div>
+				<Label for="email" class="block mb-2">Email
+					{#if $forgotPasswordform.hasError('email.required')}
+					<span style=" padding-top: 2px; font-size: 10px; color: #d00;">
+						<strong>&nbsp;This field is required.</strong>
+					</span>
+					{/if}
+				</Label>
 				<Input
 					type="email"
 					name="email"
 					id="email"
 					color={$forgotPasswordform.hasError('email.required') ? 'red' : 'base'}
-					placeholder="support@ubtiinc.com"
+					placeholder="name@example.com"
 					bind:value={$email.value}
 					required
 				>

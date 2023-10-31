@@ -1,19 +1,26 @@
 <script lang="ts">
 	import Footer from '$lib/components/footer/Footer.svelte';
+	import logo from '$lib/images/your-logo.png';
 	import '$lib/css/style.scss';
 	import '../../app.postcss';
+	import { page } from '$app/stores';
 	import { navigating } from '$app/stores';
-	import { Spinner, Button } from 'flowbite-svelte';
-
+	import {
+		Spinner,
+		Button	} from 'flowbite-svelte';
+		
 	import { onMount } from 'svelte';
 	import Header from '$lib/components/header/Header.svelte';
+	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	export let data;
 
 	const user = data.user;
 	const error = data.error;
+	$: activeUrl = $page.url.pathname;
+	let backdrop: boolean = false;
 
 	onMount(() => {
-		var toTopButton: Element | null = document.getElementById('to-top-button');
+		var toTopButton: any = document.getElementById('to-top-button');
 		// When the user scrolls down 200px from the top of the document, show the button
 		window.onscroll = function () {
 			if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
@@ -22,6 +29,7 @@
 				toTopButton?.classList.add('hidden');
 			}
 		};
+		
 	});
 
 	// When the user clicks on the button, smoothy scroll to the top of the document
@@ -30,10 +38,10 @@
 	}
 </script>
 
-<Header menus={data.appMenus} error={data.error} {user} />
+<Header menus={data.appMenus} error={data.error} user={user}/>
 
 <div class="flex px-2 mx-auto w-full">
-	<main class="lg:ml-72 w-full mx-auto">
+	<main class="w-full mx-auto">
 		<!-- Back to top button -->
 		<Button
 			id="to-top-button"
@@ -56,7 +64,7 @@
 				/></svg
 			></Button
 		>
-
+		
 		{#if $navigating}
 			<!-- LOOK HERE -->
 			<div class="text-center mt-10">
@@ -66,6 +74,6 @@
 			<slot {error} />
 		{/if}
 
-		<Footer />
+		<!--<Footer />-->
 	</main>
 </div>
