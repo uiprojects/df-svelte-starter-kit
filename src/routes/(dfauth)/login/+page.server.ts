@@ -8,7 +8,7 @@ export const actions = {
             response = await client.getAuthService().login({ username: username, password: password })
             if (response.StatusCode === 200) {
 
-                return { 'status': 'SUCCESS', "response": response, message: "Login Successfull!" }
+                return { 'status': 'SUCCESS', "response": response, message: "Login Successful!" }
             }
             else {
                 return { 'status': 'ERROR', message: response.Result?.Status }
