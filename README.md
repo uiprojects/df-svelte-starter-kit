@@ -18,6 +18,7 @@ This application template can be used as a starter kit for building Diligence Fa
 - [Technology Stack](#technology-stack)
 - [Setup](#setup)
 - [Build](#building)
+- [Deploy](#deployment)
 - [Feedback](#feedback)
 
 
@@ -95,6 +96,46 @@ You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
 
+## Deployment
+
+1. Create a new Azure App Service using the below button
+
+    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fuicloudanalytics%2Fazure-arm-templates%2Fmain%2FDiligenceFabric%2Fazure-deploy-starter-template.json)
+
+2. Update the Environment variables in `Azure App Service Configuration -> Application Settings`. You can get those information in DF Admin portal -> Application Preview.
+
+    - DF_TENANT_ID
+    - DF_APP_ID
+    - DF_API_URL
+
+3. To deploy your web application there are multiple ways
+    
+    - [Manual deployment](#manual-deployment)
+    - Continuous Integration and Continuous Deployment (GitHub Actions or Azure DevOps)
+    
+### Manual Deployment
+
+1. Run the following command
+
+    ```sh
+    npm run build
+    ```
+2. Copy the following contents to a new folder named `production_build`
+
+    - build (folder)
+    - package.json
+    - server.cjs
+    - web.config
+
+3. Use any FTP client for the manual deployment and connect to Azure App Service using FTPs credentials provided in the Deployment Center.
+
+4. After successful connection, copy the contents from the `production_build` folder to the `wwwroot` folder in the Azure App Service FTP.
+
+5. Restart the Azure App Service.
+
+### Automated Deployment via CI CD Process
+
+>Will be available soon!
 
 ## Feedback
 
