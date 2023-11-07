@@ -1,11 +1,9 @@
-import { error } from '@sveltejs/kit';
 import { DiligenceFabricClient } from '@ubti/diligence-fabric-sdk';
-
 
 export const client = new DiligenceFabricClient();
 
 export const renderLayout = async (locals: any, url: any) => {
-    client.setAuthUser(locals.user)
+	client.setAuthUser(locals.user);
 
     let authzResponse = await client.getApplicationRoleService().isMenuAuthorized(url.pathname)
     if (!authzResponse.isAuthorized && !authzResponse.empty) {

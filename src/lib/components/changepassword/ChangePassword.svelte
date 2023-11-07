@@ -276,29 +276,13 @@
 				</Input>
 			</div>
 			<div class="flex flex-row items-center justify-between">
-				<div />
-				<Button
-					type="button"
-					color="alternative"
-					size="xs"
-                    href="/"
-					style="float: right;"
-				>
-					Go back
-				</Button>
-			</div>
-			<div class="flex flex-row items-center justify-center">
-				<Button
-					type="submit"
-					color="primary"
-					class="text-whitecus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-				>
+				<Button type="submit" color="primary" size="xs" disabled={loading}
+					>Submit
 					{#if loading}
-						<Spinner class="ml-3" size="4" color="white" />Submitting...
-					{:else}
-						Submit
-					{/if}
-				</Button>
+						<Spinner class="ml-3" size="4" color="white" />
+					{/if}</Button
+				>
+				<Button type="button" color="alternative" size="xs" href="/">Go Back</Button>
 			</div>
 		</div>
 	</div>
