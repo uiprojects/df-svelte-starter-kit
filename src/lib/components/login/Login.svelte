@@ -65,6 +65,11 @@
 						<path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
 					</svg>
 				</Input>
+				{#if $loginForm.hasError('username.required')}
+					<Helper class="mt-2 text-primary-200" color="red"
+						><span class="font-medium">This field is required</span></Helper
+					>
+				{/if}
 			</div>
 			<div>
 				<Label for="password" class="block mb-2">Password</Label>
