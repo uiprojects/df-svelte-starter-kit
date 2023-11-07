@@ -113,7 +113,8 @@ You can preview the production build with `npm run preview`.
 3. To deploy your web application there are multiple ways
 
    - [Manual deployment](#manual-deployment)
-   - Continuous Integration and Continuous Deployment (GitHub Actions or Azure DevOps)
+   - [Automated Deployment using GitHub Actions](#automated-deployment-via-ci-cd-process-using-github-actions)
+   - [Automated Deployment using Azure Pipelines](#automated-deployment-via-ci-cd-process-using-azure-pipelines-azure-devops)
 
 ### Manual Deployment
 
@@ -136,9 +137,21 @@ You can preview the production build with `npm run preview`.
 
 5. Restart the Azure App Service.
 
-### Automated Deployment via CI CD Process
+### Automated Deployment via CI CD Process using Github Actions
 
-> Will be available soon!
+1. You can review the build and deploy process `YML` file [here](./.github/workflows/adapter-node-deploy.yml)
+
+2. You need to update the app-name and slot names (`YML file`) to match with your ARM templates created/deployed in previous steps.
+
+3. Then Go to [portal.azure.com](https://portal.azure.com) and find the App service resource created in previous steps. You can download the publish profile from the overview page.
+
+4. Next you need to go to the `GitHub Repository -> settings (tab) -> Secrets and Variables -> Actions` then create a new secret named `AZURE_WEBAPP_PUBLISH_PROFILE` and the value should be the contents of the downloaded publish profile (from the previous step).
+
+5. That's it. You are ready to go now make a dummy commit or change any file to the `main` branch and the deployment will get triggered automatically.
+
+### Automated Deployment via CI CD Process using Azure Pipelines (Azure DevOps)
+
+>Will be available soon. Stay tuned!!
 
 ## Feedback
 

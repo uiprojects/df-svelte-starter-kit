@@ -1,4 +1,4 @@
-<script type="module" lang="ts">
+<script lang="ts">
 	import { sineIn } from 'svelte/easing';
 	import {
 		Navbar,
@@ -39,6 +39,7 @@
 	let breakPoint = 1024;
 	let width: number;
 	let activateClickOutside = true;
+	let hoverDropMenu: { [key: number]: boolean } = {};
 
 	$: if (width >= breakPoint) {
 		drawerHidden = false;
@@ -49,7 +50,9 @@
 	}
 
 	const handleClickOutside = (event: any) => {
-		hoverDropdown = false;
+		Object.keys(hoverDropMenu).forEach((key) => {
+			hoverDropMenu[key] = false;
+		});
 	};
 
 	const toggleSide = () => {
@@ -59,6 +62,12 @@
 	};
 	const toggleDrawer = () => {
 		drawerHidden = false;
+	};
+
+	const changeDropdown = (appMenuID: number) => {
+		hoverDropMenu = {
+			[appMenuID]: true
+		};
 	};
 
 	onMount(() => {
@@ -78,7 +87,13 @@
 
 <svelte:window bind:innerWidth={width} />
 
-<Navbar let:hidden let:toggle color="primary" navDivClass="mr-auto flex flex-wrap items-center">
+<Navbar
+	let:hidden
+	let:toggle
+	color="primary"
+	class="!py-0"
+	navDivClass="mr-auto flex flex-wrap items-center"
+>
 	<NavHamburger on:click={toggleDrawer} />
 	<NavBrand href="/" class="lg:ml-64" />
 
@@ -95,7 +110,6 @@
 				<span class="block truncate text-sm font-medium">{user.EmailAddress}</span>
 			</div>
 			<DropdownItem>Profile</DropdownItem>
-			<DropdownItem slot="footer">Log out</DropdownItem>
 		</Dropdown>
 	</div>
 
@@ -106,7 +120,7 @@
 			</DropdownHeader>
 		</Dropdown> -->
 
-	<NavUl {hidden} divClass="w-full md:flex md:w-auto">
+	<NavUl {hidden} divClass="ms-9 w-full md:flex md:w-auto p-0">
 		{#each Object.entries(menus) as [key, value]}
 			{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 				<NavLi
@@ -123,18 +137,13 @@
 					activeClass="bg-white !text-primary-100 hover:bg-white"
 					class="cursor-pointer !p-1 text-white hover:!text-white"
 					href={value.AppMenuActionURL}
-					on:mouseover={() => (hoverDropdown = true)}
+					on:mouseover={() => changeDropdown(value.AppMenuID)}
 				>
 					<Chevron aligned>
 						{value.AppMenuLabel}
 					</Chevron>
 				</NavLi>
-				<Dropdown
-					bind:open={hoverDropdown}
-					id="dropdownHover"
-					triggeredBy="#nav-menu{value.AppMenuID}"
-					class="w-44 z-20"
-				>
+				<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" class="w-44 z-20">
 					{#each Object.entries(menus[key].childMenus) as [key, value]}
 						<DropdownItem href={value.AppMenuActionURL}>
 							{value.AppMenuLabel}
