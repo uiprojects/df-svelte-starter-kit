@@ -4,7 +4,6 @@
 	import { fade } from 'svelte/transition';
 
 	export let password, username, loading: boolean, messages, loginForm;
-	
 </script>
 
 <div class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0">

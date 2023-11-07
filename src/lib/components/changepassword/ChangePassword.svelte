@@ -3,7 +3,6 @@
 	import { fade } from 'svelte/transition';
 	import yourlogo from '$lib/images/your-logo.png';
 
-
 	export let oldPassword,
 		newPassword,
 		confirmNewpassword,
@@ -107,22 +106,13 @@
 				{/if}
 			</div>
 			<div class="flex flex-row items-center justify-between">
-				<Button
-					type="submit"
-					color="primary"
-					size="xs"
-					disabled={loading}
-				>Submit
+				<Button type="submit" color="primary" size="xs" disabled={loading}
+					>Submit
 					{#if loading}
 						<Spinner class="ml-3" size="4" color="white" />
-					{/if}</Button>
-                    <Button
-					type="button"
-					color="alternative"
-					size="xs"
-                    href="/"
-				>Go Back
-					</Button>
+					{/if}</Button
+				>
+				<Button type="button" color="alternative" size="xs" href="/">Go Back</Button>
 			</div>
 		</div>
 	</div>

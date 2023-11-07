@@ -1,5 +1,5 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 
-const loading = writable(false)
+const loading = writable(false);
 
-export default loading
+export default loading;

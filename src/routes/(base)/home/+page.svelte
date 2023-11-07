@@ -1,19 +1,12 @@
 <script lang="ts">
-	import { afterUpdate, onMount } from 'svelte';
-	import {  Heading , Popover ,  Spinner , Button} from 'flowbite-svelte'
-	import { slide } from 'svelte/transition';
+	import { Heading } from 'flowbite-svelte';
 
-	export let data;
-
+	// export let data;
 </script>
 
 <div class="my-2">
-	<Heading tag="h4" class="mb-4"> Starter Kit template  
-		<button id="b3">
-	
-	</Heading>
-
- 
+	<Heading tag="h4" class="mb-4">
+		Starter Kit template
+		<button id="b3" /></Heading
+	>
 </div>
-
-

@@ -1,5 +1,4 @@
 <script type="module" lang="ts">
-	import { page } from '$app/stores';
 	import { sineIn } from 'svelte/easing';
 	import {
 		Navbar,
@@ -21,24 +20,23 @@
 	} from 'flowbite-svelte';
 	import yourlogo from '$lib/images/your-logo.png';
 	import Key from 'svelte-heros-v2/Key.svelte';
-	import User from 'svelte-heros-v2/User.svelte';
 	import './style.scss';
 	import { onMount } from 'svelte';
 	export let user, menus, error;
-	let drawerHidden: boolean = false;
-	let hoverDropdown: boolean = false;
+	let drawerHidden = false;
+	let hoverDropdown = false;
 	let transitionParams = {
 		x: -320,
 		duration: 200,
 		easing: sineIn
 	};
-	let backdrop: boolean = false;
+	let backdrop = false;
 	let site = {
 		name: '',
 		href: '/',
 		img: yourlogo
 	};
-	let breakPoint: number = 1024;
+	let breakPoint = 1024;
 	let width: number;
 	let activateClickOutside = true;
 

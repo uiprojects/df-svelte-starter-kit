@@ -1,5 +1,5 @@
 export const isChecked: any = () => {
-    return async (value: boolean) => {
-        return { valid: value, name: 'isChecked' };
-    };
-}
+	return async (value: boolean) => {
+		return { valid: value, name: 'isChecked' };
+	};
+};
