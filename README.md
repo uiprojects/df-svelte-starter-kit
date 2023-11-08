@@ -18,6 +18,7 @@ This application template can be used as a starter kit for building Diligence Fa
 - [Technology Stack](#technology-stack)
 - [Setup](#setup)
 - [Build](#building)
+- [Upgrade Template](#how-to-upgrade-the-template-manual-process)
 - [Deploy](#deployment)
 - [Feedback](#feedback)
 
