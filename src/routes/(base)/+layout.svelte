@@ -3,6 +3,7 @@
 	import logo from '$lib/images/your-logo.png';
 	import '$lib/css/style.scss';
 	import '../../app.postcss';
+	import { env } from '$env/dynamic/public';
 	import Key from 'svelte-heros-v2/Key.svelte';
 	import { page } from '$app/stores';
 	import { navigating } from '$app/stores';
@@ -29,7 +30,8 @@
 		Spinner,
 		Button,
 		ChevronUp,
-		ChevronDown
+		ChevronDown,
+		Label
 	} from 'flowbite-svelte';
 	import { Toast } from '$lib/components/Toast';
 	import { sineIn } from 'svelte/easing';
@@ -54,14 +56,19 @@
 	let backdrop: boolean = false;
 	$: hoverDropdown = false;
 	let activateClickOutside = true;
-	let drawerHidden: boolean = true;
+	let drawerHidden: boolean = false;
 	let breakPoint: number = 1024;
 	let width: number;
 
+
 	// The menuType variable controls how the menu appears.
-	let menuType: string;
-	menuType = "topbanner" // appears in the top navbar
-	// menuType = "sidebar" // appears in a collapsible sidebar
+	// "topbanner": Menu appears in the top navbar.
+	// "sidebar": Menu appears in a collapsible sidebar.
+	let menuType: any;
+	menuType = "sidebar";
+
+	//menuType = env.NAV_MENU_TYPE;
+	//console.log(${env.NAV_MENU_TYPE});
 
 	onMount(() => {
 		console.log(activeUrl === '/menu');
@@ -287,6 +294,12 @@
 	</Dropdown> -->
 </Navbar>
 
+<div style="position: fixed; left: 0; bottom: 0; width: 100%; font-size: 10px; padding: 6px;">
+	<strong>Powered by <a href="https://ubtiinc.com/" style="color: black;">UBTI</a></strong>
+	<br>
+	© {new Date().getFullYear()} UB Technology Innovations, Inc.
+</div>
+
 <Drawer
 	transitionType="fly"
 	{backdrop}
@@ -439,44 +452,81 @@
 		<strong>Powered by <a href="https://ubtiinc.com/" style="color: white;">UBTI</a></strong>
 		<br>
 		© {new Date().getFullYear()} UB Technology Innovations, Inc.
-		<br>
-		<a href="mailto:support@ubtiinc.com" style="color: white;">For support, click here</a>
 	</div>
 </Drawer>
 
-<div class="flex px-2 mx-auto w-full">
-	<main class="w-full mx-auto">
-		<!-- Back to top button -->
-		<Button
-			id="to-top-button"
-			on:click={goToTop}
-			pill={true}
-			color="primary"
-			title="Go To Top"
-			class="!p-2 hidden fixed focus:shadow-lg focus:outline-none active:shadow-lg transition duration-150 ease-in-out bottom-5 right-5 z-10"
-			><svg
-				aria-hidden="true"
-				focusable="false"
-				data-prefix="fas"
-				class="w-4 h-4"
-				role="img"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 448 512"
-				><path
-					fill="currentColor"
-					d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"
-				/></svg
-			></Button
-		>
-		{#if $navigating}
-			<!-- LOOK HERE -->
-			<div class="text-center mt-10">
-				<Spinner size="12" color="primary" />
-			</div>
-		{:else}
-			<slot {error} />
-		{/if}
+{#if drawerHidden}
+	<div class="flex px-2 mx-auto w-full">
+		<main class="w-full mx-auto">
+			<!-- Back to top button -->
+			<Button
+				id="to-top-button"
+				on:click={goToTop}
+				pill={true}
+				color="primary"
+				title="Go To Top"
+				class="!p-2 hidden fixed focus:shadow-lg focus:outline-none active:shadow-lg transition duration-150 ease-in-out bottom-5 right-5 z-10"
+				><svg
+					aria-hidden="true"
+					focusable="false"
+					data-prefix="fas"
+					class="w-4 h-4"
+					role="img"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 448 512"
+					><path
+						fill="currentColor"
+						d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"
+					/></svg
+				></Button
+			>
+			{#if $navigating}
+				<!-- LOOK HERE -->
+				<div class="text-center mt-10">
+					<Spinner size="12" color="primary" />
+				</div>
+			{:else}
+				<slot {error} />
+			{/if}
 
-		<!--<Footer />-->
-	</main>
-</div>
+			<!--<Footer />-->
+		</main>
+	</div>
+{:else}
+	<div class="flex px-2 mx-auto w-full" style="margin-left: 14rem;">
+		<main style="width: calc(100% - 14rem);">
+			<!-- Back to top button -->
+			<Button
+				id="to-top-button"
+				on:click={goToTop}
+				pill={true}
+				color="primary"
+				title="Go To Top"
+				class="!p-2 hidden fixed focus:shadow-lg focus:outline-none active:shadow-lg transition duration-150 ease-in-out bottom-5 right-5 z-10"
+				><svg
+					aria-hidden="true"
+					focusable="false"
+					data-prefix="fas"
+					class="w-4 h-4"
+					role="img"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 448 512"
+					><path
+						fill="currentColor"
+						d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"
+					/></svg
+				></Button
+			>
+			{#if $navigating}
+				<!-- LOOK HERE -->
+				<div class="text-center mt-10">
+					<Spinner size="12" color="primary" />
+				</div>
+			{:else}
+				<slot {error} />
+			{/if}
+
+			<!--<Footer />-->
+		</main>
+	</div>
+{/if}
