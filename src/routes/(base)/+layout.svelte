@@ -14,6 +14,14 @@
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	export let data;
 
+	// The menuType variable controls how the menu appears.
+	// "topbanner": Menu appears in the top navbar.
+	// "sidebar": Menu appears in a collapsible sidebar.
+	let menuType =  "sidebar";
+
+	//menuType = env.NAV_MENU_TYPE;
+	//console.log(${env.NAV_MENU_TYPE});
+
 	const user = data.user;
 	const error = data.error;
 	$: activeUrl = $page.url.pathname;
@@ -78,8 +86,8 @@
 		</main>
 	</div>
 {:else}
-	<div class="flex px-2 mx-auto w-full" style="margin-left: 14rem;">
-		<main style="width: calc(100% - 14rem);">
+	<div class="flex px-2 mx-auto w-full" style="margin-left: 14rem; width: calc(100vw - 14rem);">
+		<main style="margin: auto;">
 			<!-- Back to top button -->
 			<Button
 				id="to-top-button"
