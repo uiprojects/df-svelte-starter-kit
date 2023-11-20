@@ -1,5 +1,4 @@
-<script type="module" lang="ts">
-	import { page } from '$app/stores';
+<script lang="ts">
 	import { sineIn } from 'svelte/easing';
 	import {
 		Navbar,
@@ -21,26 +20,25 @@
 	} from 'flowbite-svelte';
 	import yourlogo from '$lib/images/your-logo.png';
 	import Key from 'svelte-heros-v2/Key.svelte';
-	import User from 'svelte-heros-v2/User.svelte';
 	import './style.scss';
 	import { onMount } from 'svelte';
 	export let user, menus, error;
-	let drawerHidden: boolean = false;
-	let hoverDropdown: boolean = false;
+	let drawerHidden = false;
 	let transitionParams = {
 		x: -320,
 		duration: 200,
 		easing: sineIn
 	};
-	let backdrop: boolean = false;
+	let backdrop = false;
 	let site = {
 		name: '',
 		href: '/',
 		img: yourlogo
 	};
-	let breakPoint: number = 1024;
+	let breakPoint = 1024;
 	let width: number;
 	let activateClickOutside = true;
+	let hoverDropMenu: { [key: number]: boolean } = {};
 
 	$: if (width >= breakPoint) {
 		drawerHidden = false;
@@ -50,15 +48,18 @@
 		activateClickOutside = true;
 	}
 
-	const handleClickOutside = (event: any) => {
-		hoverDropdown = false;
+	const handleClickOutside = () => {
+		Object.keys(hoverDropMenu).forEach((key) => {
+			hoverDropMenu[key] = false;
+		});
 	};
 
-	const toggleSide = () => {
-		if (width < breakPoint) {
-			drawerHidden = !drawerHidden;
-		}
+	const changeDropdown = (appMenuID: number) => {
+		hoverDropMenu = {
+			[appMenuID]: true
+		};
 	};
+
 	const toggleDrawer = () => {
 		drawerHidden = false;
 	};
@@ -79,42 +80,28 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
+<Navbar
+	let:hidden
+	let:toggle
+	color="primary"
+	class="!py-0"
+	navDivClass="flex flex-wrap items-center"
+	fluid={true}
+>
+	<NavHamburger on:click={toggleDrawer} btnClass="bg-white" />
+	<NavBrand href="/" class="lg:ml-60" />
 
-<Navbar let:hidden let:toggle color="primary" navDivClass="mr-auto flex flex-wrap items-center">
-	<NavHamburger on:click={toggleDrawer} />
-	<NavBrand href="/" class="lg:ml-64" />
-
-	<div class="flex ml-auto items-center md:order-2">
-		<!-- <Button pill color="light" id="avatar-menu" class="!p-1">
-				<Avatar src={logo} class="mr-2" />
-				Welcome, User
-			</Button>
-			<NavHamburger on:click={toggle} class="w-full md:flex md:w-auto md:order-1" /> -->
-		<Avatar class="acs" />
-		<Dropdown triggeredBy=".acs">
-			<div slot="header" class="px-4 py-2">
-				<span class="block text-sm text-gray-900 dark:text-white">{user.UserName}</span>
-				<span class="block truncate text-sm font-medium">{user.EmailAddress}</span>
-			</div>
-			<DropdownItem>Profile</DropdownItem>
-			<DropdownItem slot="footer">Log out</DropdownItem>
-		</Dropdown>
-	</div>
-
-	<!-- <Dropdown placement="bottom" triggeredBy="#avatar-menu">
-			<DropdownHeader>
-				<span class="block text-sm" />
-				<span class="block truncate text-sm font-medium" />
-			</DropdownHeader>
-		</Dropdown> -->
-
-	<NavUl {hidden} divClass="w-full md:flex md:w-auto">
+	<NavUl
+		{hidden}
+		divClass="w-full md:flex md:w-auto p-0"
+		ulClass="flex flex-col bg-primary-100 p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
+	>
 		{#each Object.entries(menus) as [key, value]}
 			{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 				<NavLi
 					id="nav-menu{value.AppMenuID}"
 					activeClass="bg-white !text-primary-100 hover:bg-white"
-					class="group cursor-pointer !p-1 text-white hover:!text-white"
+					class="group cursor-pointer  !p-1 text-white hover:!text-white"
 					href={value.AppMenuActionURL}
 				>
 					{value.AppMenuLabel}
@@ -125,18 +112,13 @@
 					activeClass="bg-white !text-primary-100 hover:bg-white"
 					class="cursor-pointer !p-1 text-white hover:!text-white"
 					href={value.AppMenuActionURL}
-					on:mouseover={() => (hoverDropdown = true)}
+					on:mouseover={() => changeDropdown(value.AppMenuID)}
 				>
 					<Chevron aligned>
 						{value.AppMenuLabel}
 					</Chevron>
 				</NavLi>
-				<Dropdown
-					bind:open={hoverDropdown}
-					id="dropdownHover"
-					triggeredBy="#nav-menu{value.AppMenuID}"
-					class="w-44 z-20"
-				>
+				<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" class="w-44 z-20">
 					{#each Object.entries(menus[key].childMenus) as [key, value]}
 						<DropdownItem href={value.AppMenuActionURL}>
 							{value.AppMenuLabel}
@@ -146,6 +128,18 @@
 			{/if}
 		{/each}
 	</NavUl>
+	<div class="flex ml-auto items-center">
+		<Avatar rounded-border class="acs" />
+		<NavHamburger on:click={toggle} btnClass="bg-white md:hidden" />
+	</div>
+
+	<Dropdown triggeredBy=".acs">
+		<div slot="header" class="px-4 py-2">
+			<span class="block text-sm text-gray-900 dark:text-white">{user.UserName}</span>
+			<span class="block truncate text-sm font-medium">{user.EmailAddress}</span>
+		</div>
+		<DropdownItem>Profile</DropdownItem>
+	</Dropdown>
 </Navbar>
 
 <Drawer

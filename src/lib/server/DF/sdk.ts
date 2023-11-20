@@ -7,24 +7,21 @@ export const client = new DiligenceFabricClient();
 export const renderLayout = async (locals: any, url: any) => {
     client.setAuthUser(locals.user)
 
+    let authzResponse = await client.getApplicationRoleService().isMenuAuthorized(url.pathname)
+    if (!authzResponse.isAuthorized && !authzResponse.empty) {
+        throw error(authzResponse.status, 'You are not allowed to access this page!!');
+    }
+
     try {
         const response = await client.getApplicationRoleService().getAllAccessibleMenus()
-        if (typeof (response) == 'object') {
-            let authzResponse = await client.getApplicationRoleService().isMenuAuthorized(url.pathname)
-            if (!authzResponse.isAuthorized) {
-                return { appMenus: response, user: locals.user, error: { status: 403, message: 'You are not allowed to access this page or the menu doesn\'t exist!!' } }
-            }
-            return { appMenus: response, user: locals.user, error: {status: 200} }
+        let dataReturn = { appMenus: response, user: locals.user }
+        if (authzResponse.empty) {
+            dataReturn.error = authzResponse.message
         }
-        else {
-            return { appMenus: response, user: locals.user, error: { status: 403, message: response } }
-        }
+        return dataReturn
     }
     catch (error) {
         console.log(error)
         return { appMenus: [], user: locals.user, error: error }
     }
-
-
-
 }
