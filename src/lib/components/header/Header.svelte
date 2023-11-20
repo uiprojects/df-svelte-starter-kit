@@ -24,7 +24,6 @@
 	import { onMount } from 'svelte';
 	export let user, menus, error;
 	let drawerHidden = false;
-	let hoverDropdown = false;
 	let transitionParams = {
 		x: -320,
 		duration: 200,
@@ -49,25 +48,20 @@
 		activateClickOutside = true;
 	}
 
-	const handleClickOutside = (event: any) => {
+	const handleClickOutside = () => {
 		Object.keys(hoverDropMenu).forEach((key) => {
 			hoverDropMenu[key] = false;
 		});
-	};
-
-	const toggleSide = () => {
-		if (width < breakPoint) {
-			drawerHidden = !drawerHidden;
-		}
-	};
-	const toggleDrawer = () => {
-		drawerHidden = false;
 	};
 
 	const changeDropdown = (appMenuID: number) => {
 		hoverDropMenu = {
 			[appMenuID]: true
 		};
+	};
+
+	const toggleDrawer = () => {
+		drawerHidden = false;
 	};
 
 	onMount(() => {
@@ -86,47 +80,28 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
-
 <Navbar
 	let:hidden
 	let:toggle
 	color="primary"
 	class="!py-0"
-	navDivClass="mr-auto flex flex-wrap items-center"
+	navDivClass="flex flex-wrap items-center"
+	fluid={true}
 >
-	<NavHamburger on:click={toggleDrawer} />
-	<NavBrand href="/" class="lg:ml-64" />
+	<NavHamburger on:click={toggleDrawer} btnClass="bg-white" />
+	<NavBrand href="/" class="lg:ml-60" />
 
-	<div class="flex ml-auto items-center md:order-2">
-		<!-- <Button pill color="light" id="avatar-menu" class="!p-1">
-				<Avatar src={logo} class="mr-2" />
-				Welcome, User
-			</Button>
-			<NavHamburger on:click={toggle} class="w-full md:flex md:w-auto md:order-1" /> -->
-		<Avatar class="acs" />
-		<Dropdown triggeredBy=".acs">
-			<div slot="header" class="px-4 py-2">
-				<span class="block text-sm text-gray-900 dark:text-white">{user.UserName}</span>
-				<span class="block truncate text-sm font-medium">{user.EmailAddress}</span>
-			</div>
-			<DropdownItem>Profile</DropdownItem>
-		</Dropdown>
-	</div>
-
-	<!-- <Dropdown placement="bottom" triggeredBy="#avatar-menu">
-			<DropdownHeader>
-				<span class="block text-sm" />
-				<span class="block truncate text-sm font-medium" />
-			</DropdownHeader>
-		</Dropdown> -->
-
-	<NavUl {hidden} divClass="ms-9 w-full md:flex md:w-auto p-0">
+	<NavUl
+		{hidden}
+		divClass="w-full md:flex md:w-auto p-0"
+		ulClass="flex flex-col bg-primary-100 p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
+	>
 		{#each Object.entries(menus) as [key, value]}
 			{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 				<NavLi
 					id="nav-menu{value.AppMenuID}"
 					activeClass="bg-white !text-primary-100 hover:bg-white"
-					class="group cursor-pointer !p-1 text-white hover:!text-white"
+					class="group cursor-pointer  !p-1 text-white hover:!text-white"
 					href={value.AppMenuActionURL}
 				>
 					{value.AppMenuLabel}
@@ -153,6 +128,18 @@
 			{/if}
 		{/each}
 	</NavUl>
+	<div class="flex ml-auto items-center">
+		<Avatar rounded-border class="acs" />
+		<NavHamburger on:click={toggle} btnClass="bg-white md:hidden" />
+	</div>
+
+	<Dropdown triggeredBy=".acs">
+		<div slot="header" class="px-4 py-2">
+			<span class="block text-sm text-gray-900 dark:text-white">{user.UserName}</span>
+			<span class="block truncate text-sm font-medium">{user.EmailAddress}</span>
+		</div>
+		<DropdownItem>Profile</DropdownItem>
+	</Dropdown>
 </Navbar>
 
 <Drawer
