@@ -32,6 +32,9 @@
 	// "top": Menu appears in the top navbar.
 	// "side": Menu appears in a collapsible sidebar.
 	let drawerHidden: boolean = false;
+	if(!env?.PUBLIC_MENU_LOCATION){
+		env.PUBLIC_MENU_LOCATION = "top"
+	}
 	let transitionParams = {
 		x: -320,
 		duration: 200,

@@ -12,7 +12,10 @@
 
 	const user = data.user;
 	const error = data.error;
-	let mainClass = env.PUBLIC_MENU_LOCATION === 'top' ? 'w-full mx-auto' : 'lg:ml-72 w-full mx-auto';
+	let mainClass =
+		env.PUBLIC_MENU_LOCATION === 'top' || !env?.PUBLIC_MENU_LOCATION
+			? 'w-full mx-auto'
+			: 'lg:ml-72 w-full mx-auto';
 
 	onMount(() => {
 		var toTopButton: any = document.getElementById('to-top-button');
