@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Footer from '$lib/components/footer/Footer.svelte';
-	import logo from '$lib/images/your-logo.png';
 	import '$lib/css/style.scss';
 	import '../../app.postcss';
 	import { page } from '$app/stores';
@@ -14,13 +12,6 @@
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	export let data;
 
-	// The menuType variable controls how the menu appears.
-	// "topbanner": Menu appears in the top navbar.
-	// "sidebar": Menu appears in a collapsible sidebar.
-	let menuType =  "sidebar";
-
-	//menuType = env.NAV_MENU_TYPE;
-	//console.log(${env.NAV_MENU_TYPE});
 
 	const user = data.user;
 	const error = data.error;
@@ -121,7 +112,7 @@
 <Header menus={data.appMenus} error={data.error} {user} />
 
 <div class="flex px-2 mx-auto w-full">
-	<main class="lg:ml-72 w-full mx-auto">
+	<main class={mainClass}>
 		<!-- Back to top button -->
 		<Button
 			id="to-top-button"
@@ -153,8 +144,5 @@
 		{:else}
 			<slot {error} />
 		{/if}
-
-			<!--<Footer />-->
-		</main>
-	</div>
-{/if}
+	</main>
+</div>

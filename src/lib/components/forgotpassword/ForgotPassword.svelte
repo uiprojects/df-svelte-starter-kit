@@ -6,31 +6,6 @@
 	export let email, loading: boolean, messages, forgotPasswordform;
 </script>
 
-<style type="text/css">
-	.fade-in-from-top {
-	  position: relative;
-	  animation-name: fadeInFromTop;
-	  animation-duration: 0.4s;
-	  animation-fill-mode: both;
-	}
-	.fade-in-from-top-delay-1 {
-	  position: relative;
-	  animation: fadeInFromTop;
-	  animation-duration: 0.4s;
-	  animation-delay: 0.3s;
-	  animation-fill-mode: both;
-	}
-	@keyframes fadeInFromTop {
-	  from {
-		top: -15px;
-		opacity: 0;
-	  }
-	  to {
-		top: 0px;
-		opacity: 1;
-	  }
-	}
-</style>
 <div class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0 fade-in-from-top">
 	<a
 		href="https://ubtiinc.com"
@@ -41,7 +16,7 @@
 	<div
 		class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 fade-in-from-top-delay-1"
 	>
-		<div class="p-6 space-y-4 md:space-y-6 sm:p-8" style="height: 400px;">
+		<div class="p-6 space-y-4 md:space-y-6 sm:p-8">
 			<h1
 				class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
 			>
