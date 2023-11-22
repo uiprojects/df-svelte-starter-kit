@@ -21,7 +21,7 @@
 	import logo from '$lib/images/your-logo.png';
 	import './style.scss';
 	import { onMount } from 'svelte';
-	import env from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	export let user, menus, error;
 
 	
@@ -316,11 +316,7 @@
 							</svg>
 						</svelte:fragment>
 					</SidebarItem>
-					<!-- <SidebarItem label="Admin" href="/admin">
-					<svelte:fragment slot="icon">
-						<ShieldExclamation />
-					</svelte:fragment>
-				</SidebarItem> -->
+				
 					<hr style="height: 2px; background-color: #ffffff;" />
 					{#each Object.entries(menus) as [key, value]}
 						{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}

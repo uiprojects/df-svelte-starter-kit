@@ -2,14 +2,27 @@
 	import logo from '$lib/images/your-logo.png';
 	import { Alert, Button, Helper, Input, Label, Spinner } from 'flowbite-svelte';
 	import { fade } from 'svelte/transition';
-	import './style.scss';
 
-	export let password, username, loading: boolean, messages, loginForm;
+	export let password, username, userCookie, loading: boolean, messages, loginForm;
+
+	let hidden = Boolean(userCookie);
+
+	let type = 'password';
+
+	function toggleShowPassword() {
+		type = type === 'text' ? 'password' : 'text';
+	}
+
+	function onInput(event) {
+		if (userCookie != event.target.value) {
+			hidden = false;
+		} else {
+			hidden = true;
+		}
+	}
 </script>
 
-<div
-	class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0"
->
+<div class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0">
 	<a
 		href="https://ubtiinc.com"
 		class="flex items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white"
@@ -97,6 +110,20 @@
 					bind:value={$password.value}
 					required
 				>
+					<svg
+						slot="left"
+						aria-hidden="true"
+						class="w-5 h-5 text-gray-500 dark:text-gray-400"
+						fill="currentColor"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<g transform="translate(3.5 1) scale(0.032)">
+							<path
+								d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"
+							/>
+						</g>
+					</svg>
 					<svg
 						slot="right"
 						aria-hidden="true"

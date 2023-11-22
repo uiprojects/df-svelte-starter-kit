@@ -6,7 +6,7 @@ export const load = async ({ cookies }) => {
 }
 
 export const actions = {
-	submit: async ({ request, url, cookies }) => {
+	submit: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const { username, password, rememberMe } = Object.fromEntries(data);
 		let response = null;
@@ -16,7 +16,7 @@ export const actions = {
 				if (response.StatusCode === 200) {
 					if (rememberMe == 'on') {
 						cookies.set('df_ds_rem_user', username.toString(), {
-							maxAge: 60 * 60 * 24 * 7
+							maxAge: 605800 // 60 * 60 * 24 * 7 - approx 1 week
 						})
 					}
 					return { status: 'SUCCESS', response: response, message: 'Login Successfull!' };
