@@ -1,26 +1,26 @@
-import type { Handle } from "@sveltejs/kit"
-import { sequence } from "@sveltejs/kit/hooks"
-import { client } from '$lib/server/DF/sdk'
+import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
+import { client } from '$lib/server/DF/sdk';
 // import { env } from '$env/dynamic/private'
 // import * as Sentry from "@sentry/sveltekit";
 // import crypto from 'crypto';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
-    const unProtectedRoutes = ['/forgot-password', '/login']
-    if (!event.cookies.get('token') && !unProtectedRoutes.includes(event.url.pathname)) {
-        return new Response('Redirect', { status: 303, headers: { Location: '/login' } });
-    }
-    if(event.cookies.get('token') && event.url.pathname.startsWith('/login')){
-        return new Response('Redirect', { status: 303, headers: { Location: '/' } });
-    }
-    event.locals.client = client
+	const unProtectedRoutes = ['/forgot-password', '/login'];
+	if (!event.cookies.get('token') && !unProtectedRoutes.includes(event.url.pathname)) {
+		return new Response('Redirect', { status: 303, headers: { Location: '/login' } });
+	}
+	if (event.cookies.get('token') && event.url.pathname.startsWith('/login')) {
+		return new Response('Redirect', { status: 303, headers: { Location: '/' } });
+	}
+	event.locals.client = client;
 
-    if (event.cookies.get('df_user')) {
-        event.locals.token = event.cookies.get('token')
-        event.locals.user = JSON.parse(event.cookies.get('df_user'))
-    }
-    return resolve(event)
+	if (event.cookies.get('df_user')) {
+		event.locals.token = event.cookies.get('token');
+		event.locals.user = JSON.parse(event.cookies.get('df_user'));
+	}
+	return resolve(event);
 }
 
 // const ii8: Handle = async ({ event, resolve }) => {
@@ -28,8 +28,6 @@ export async function handle({ event, resolve }) {
 // }
 
 // export const handle = sequence(auth)
-
-
 
 // Sentry.init({
 //     dsn: env.SENTRY_URL,

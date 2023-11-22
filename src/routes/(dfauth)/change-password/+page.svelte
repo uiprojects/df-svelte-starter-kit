@@ -1,6 +1,4 @@
 <script lang="ts">
-	// @ts-nocheck
-
 	import ChangePassword from '$lib/components/changepassword/ChangePassword.svelte';
 	import { applyAction, enhance } from '$app/forms';
 	import { form, field } from 'svelte-forms';
@@ -17,8 +15,8 @@
 			required(),
 			isPasswordMatched(newPassword)
 		]);
-	let loading: boolean = false;
-	let messages = new MessageManager()
+	let loading = false;
+	let messages = new MessageManager();
 	let changePasswordform;
 
 	changePasswordform = form(oldPassword, newPassword, confirmNewpassword);
@@ -34,7 +32,7 @@
 	novalidate
 	method="post"
 	action="?/submit"
-	use:enhance={async ({ form, data, action, cancel }) => {
+	use:enhance={async ({ cancel }) => {
 		// `form` is the `<form>` element
 		// `data` is its `FormData` object
 		// `action` is the URL to which the form is posted
@@ -45,7 +43,7 @@
 			loading = false;
 		} else {
 			loading = true;
-			messages.hideAlerts()
+			messages.hideAlerts();
 		}
 		return async ({ result }) => {
 			// `result` is an `ActionResult` object
@@ -64,7 +62,7 @@
 					resetForm();
 					goto('/login');
 				} else {
-					messages.showError(result.data.message)
+					messages.showError(result.data.message);
 				}
 			}
 			if (result.type === 'error') {

@@ -1,24 +1,20 @@
 <script lang="ts">
-	// @ts-nocheck
-
 	import { applyAction, enhance } from '$app/forms';
 	import { form, field } from 'svelte-forms';
 	import { required } from 'svelte-forms/validators';
-	import { goto } from '$app/navigation';
-	import { Toast } from '$lib/components/Toast';
 	import ForgotPassword from '$lib/components/forgotpassword/ForgotPassword.svelte';
 	import { MessageManager } from '$lib/common/MessageManager';
 
-	let email = field('email', '', [required()])
-	let loading: boolean = false;
-	let messages = new MessageManager()
+	let email = field('email', '', [required()]);
+	let loading = false;
+	let messages = new MessageManager();
 
 	let forgotPasswordform;
 
 	forgotPasswordform = form(email);
 
 	const resetForm = () => {
-		email.clear()
+		email.clear();
 	};
 </script>
 
@@ -37,17 +33,17 @@
 			loading = false;
 		} else {
 			loading = true;
-			messages.hideAlerts()
+			messages.hideAlerts();
 		}
 		return async ({ result }) => {
 			// `result` is an `ActionResult` object
 			loading = false;
 			if (result.type == 'success') {
 				if (result.data.status === 'SUCCESS') {
-					messages.showSuccessMessage(result.data.message)
+					messages.showSuccessMessage(result.data.message);
 					resetForm();
 				} else {
-					messages.showError(result.data.message)
+					messages.showError(result.data.message);
 				}
 			}
 			if (result.type === 'error') {
@@ -56,10 +52,5 @@
 		};
 	}}
 >
-	<ForgotPassword
-		{email}
-		{loading}
-		{messages}
-		{forgotPasswordform}
-	/>
+	<ForgotPassword {email} {loading} {messages} {forgotPasswordform} />
 </form>

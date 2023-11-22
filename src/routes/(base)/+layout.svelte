@@ -2,46 +2,35 @@
 	import Footer from '$lib/components/footer/Footer.svelte';
 	import '$lib/css/style.scss';
 	import '../../app.postcss';
-	import { page } from '$app/stores';
 	import { navigating } from '$app/stores';
-	import {
-		Spinner,
-		Button	} from 'flowbite-svelte';
-		
+	import { Spinner, Button } from 'flowbite-svelte';
+
 	import { onMount } from 'svelte';
 	import Header from '$lib/components/header/Header.svelte';
-	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	export let data;
 
 	const user = data.user;
 	const error = data.error;
-	$: activeUrl = $page.url.pathname;
-	let backdrop: boolean = false;
 
 	onMount(() => {
-		var toTopButton: any = document.getElementById('to-top-button');
+		var toTopButton: Element | null = document.getElementById('to-top-button');
 		// When the user scrolls down 200px from the top of the document, show the button
 		window.onscroll = function () {
 			if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-				toTopButton.classList.remove('hidden');
+				toTopButton?.classList.remove('hidden');
 			} else {
-				toTopButton.classList.add('hidden');
+				toTopButton?.classList.add('hidden');
 			}
 		};
-		
 	});
 
-	let darkmodebtn =
-		'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-lg p-2.5 fixed right-2 top-12  md:top-3 md:right-2 z-50';
-	let ulClass =
-		'bg-blue-100 flex flex-col p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-lg md:font-medium';
 	// When the user clicks on the button, smoothy scroll to the top of the document
 	function goToTop() {
 		scrollTo({ top: 0, behavior: 'smooth' });
 	}
 </script>
 
-<Header menus={data.appMenus} error={data.error} user={user}/>
+<Header menus={data.appMenus} error={data.error} {user} />
 
 <div class="flex px-2 mx-auto w-full">
 	<main class="lg:ml-72 w-full mx-auto">
@@ -67,7 +56,7 @@
 				/></svg
 			></Button
 		>
-		
+
 		{#if $navigating}
 			<!-- LOOK HERE -->
 			<div class="text-center mt-10">

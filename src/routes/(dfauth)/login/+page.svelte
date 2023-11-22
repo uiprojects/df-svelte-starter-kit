@@ -10,7 +10,7 @@
 
 	let username = field('username', '', [required()]),
 		password = field('password', '', [required()]);
-	let loading: boolean = false;
+	let loading = false;
 	let messages = new MessageManager();
 	let loginForm: any;
 
@@ -25,7 +25,7 @@
 	novalidate
 	method="post"
 	action="?/submit"
-	use:enhance={async ({ form, data, action, cancel }) => {
+	use:enhance={async ({ cancel }) => {
 		// `form` is the `<form>` element
 		// `data` is its `FormData` object
 		// `action` is the URL to which the form is posted
@@ -61,7 +61,7 @@
 					resetForm();
 					goto('/');
 				} else {
-					messages.showError(result.data.message);
+					messages.showError(result.data?.message);
 				}
 			}
 			if (result.type === 'error') {

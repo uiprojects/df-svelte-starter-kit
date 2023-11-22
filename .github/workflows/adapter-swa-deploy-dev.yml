@@ -22,10 +22,10 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_SWA_DEPLOYMENT_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-          action: "upload"
+          action: 'upload'
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "./" # App source code path
+          app_location: './' # App source code path
           output_location: 'build/static' # Built app content directory - optional
           api_location: 'build/server'
           # needed when we set CUSTOM_BUILD_COMMAND

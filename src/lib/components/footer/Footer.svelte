@@ -1,10 +1,5 @@
 <script type="module" lang="ts">
-	import {
-		Footer,
-		FooterCopyright,
-		FooterBrand,
-		FooterIcon
-	} from 'flowbite-svelte';
+	import { Footer, FooterCopyright, FooterBrand, FooterIcon } from 'flowbite-svelte';
 	import Logo from '$lib/images/your-logo.png';
 </script>
 
