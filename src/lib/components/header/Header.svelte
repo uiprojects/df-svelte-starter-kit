@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { sineIn } from 'svelte/easing';
-	
+
 	import {
 		Navbar,
 		NavHamburger,
@@ -16,7 +16,11 @@
 		SidebarGroup,
 		SidebarItem,
 		SidebarDropdownWrapper,
-		Button
+		Button,
+		SidebarDropdownItem,
+
+		CloseButton
+
 	} from 'flowbite-svelte';
 	import logo from '$lib/images/your-logo.png';
 	import './style.scss';
@@ -24,11 +28,10 @@
 	import { env } from '$env/dynamic/public';
 	export let user, menus, error;
 
-	
 	// The PUBLIC_MENU_LOCATION env variable controls how the menu appears.
 	// "top": Menu appears in the top navbar.
 	// "side": Menu appears in a collapsible sidebar.
-	let drawerHidden: boolean = env.PUBLIC_MENU_LOCATION != 'side';
+	let drawerHidden: boolean = false;
 	let transitionParams = {
 		x: -320,
 		duration: 200,
@@ -55,9 +58,9 @@
 	};
 
 	const toggleSide = () => {
-		if (width < breakPoint) {
-			drawerHidden = !drawerHidden;
-		}
+		// if (width < breakPoint) {
+		drawerHidden = !drawerHidden;
+		// }
 	};
 
 	const changeDropdown = (appMenuID: number) => {
@@ -65,7 +68,6 @@
 			[appMenuID]: true
 		};
 	};
-
 
 	onMount(() => {
 		if (width >= breakPoint) {
@@ -174,7 +176,6 @@
 		</NavUl>
 	{/if}
 
-
 	<div
 		class="flex ml-auto items-center acs"
 		style="padding: 6px 14px 6px 10px; background-color: rgba(255, 255, 255, 0.4); cursor: pointer; min-width: 125px;"
@@ -231,60 +232,16 @@
 		class="overflow-auto p-0"
 		id="sidebar"
 	>
-		<!--<div style="display: flex; justify-content: flex-end;">
-		<Button
-			on:click={() => (drawerHidden = true)}
-			style="padding: 10px;"
-		>
-			<span class="sr-only">Close main menu</span>
-			<svg xmlns="http://www.w3.org/2000/svg"
-				role="button" tabindex="0" width="24" height="24"
-				class="w-6 h-6" aria-label="bars 3"
-				fill="none" viewBox="0 0 24 24" stroke-width="2"
-			>
-				<path
-					stroke="currentColor"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M 6 6 L 18 18 M 18 6 L 6 18"
-				/>
-			</svg>
-		</Button>
-	</div>
--->
-
+		<div class="flex items-center">
+			<CloseButton
+				on:click={() => (drawerHidden = true)}
+				class="mb-4 text-white dark:text-white lg:hidden hover:!bg-primary-100"
+			/>
+		</div>
 		<Sidebar asideClass="w-56">
 			<SidebarWrapper divClass="overflow-y-auto py-0 px-0 dark:bg-gray-800">
 				<SidebarGroup class="py-2 px-2">
 					<div style="position: relative; top: -8px;">
-						<Button
-							on:click={() => (drawerHidden = true)}
-							type="button"
-							style="padding: 0px; margin-right: 3.5px; margin-top: 8px;"
-							aria-label="Close main menu"
-						>
-							<span class="sr-only">Close main menu</span>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								role="button"
-								tabindex="0"
-								width="24"
-								height="24"
-								class="w-6 h-6"
-								aria-label="bars 3"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-							>
-								<path
-									stroke="currentColor"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M4 6h16M4 12h16M4 18h16"
-								/>
-							</svg>
-						</Button>
-
 						<img
 							src={logo}
 							class="h-10"
@@ -316,17 +273,18 @@
 							</svg>
 						</svelte:fragment>
 					</SidebarItem>
-				
+
 					<hr style="height: 2px; background-color: #ffffff;" />
 					{#each Object.entries(menus) as [key, value]}
 						{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 							<SidebarItem
 								label={value.AppMenuLabel}
 								class="text-white hover:text-primary-100 text-sm"
+								id="nav-menu{value.AppMenuID}"
+								activeClass="bg-white !text-primary-100
+								hover:bg-white"
+								href={value.AppMenuActionURL}
 							>
-								id="nav-menu{value.AppMenuID}" activeClass="bg-white !text-primary-100
-								hover:bg-white" href={value.AppMenuActionURL}
-								>
 								{value.AppMenuLabel}
 							</SidebarItem>
 						{:else if menus[key].ParenAppMenuID == 0}
@@ -358,7 +316,6 @@
 										label={value.AppMenuLabel}
 										class="text-white hover:text-primary-100 text-sm"
 										id="nav-menu{value.AppMenuID}"
-										active={activeUrl === '/menu' && value.AppMenuLabel === 'Admin'}
 										activeClass="bg-white !text-primary-100 hover:bg-white"
 										href={value.AppMenuActionURL}
 									/>
