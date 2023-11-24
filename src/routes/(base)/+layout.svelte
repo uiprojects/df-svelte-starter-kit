@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Footer from '$lib/components/footer/Footer.svelte';
 	import '$lib/css/style.scss';
 	import '../../app.postcss';
 	import { navigating } from '$app/stores';
@@ -7,13 +6,19 @@
 
 	import { onMount } from 'svelte';
 	import Header from '$lib/components/header/Header.svelte';
+	import { env } from '$env/dynamic/public';
+	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	export let data;
 
 	const user = data.user;
 	const error = data.error;
+	let mainClass =
+		env.PUBLIC_MENU_LOCATION === 'top' || !env?.PUBLIC_MENU_LOCATION
+			? 'w-full mx-auto'
+			: 'lg:ml-72 w-full mx-auto';
 
 	onMount(() => {
-		var toTopButton: Element | null = document.getElementById('to-top-button');
+		var toTopButton: any = document.getElementById('to-top-button');
 		// When the user scrolls down 200px from the top of the document, show the button
 		window.onscroll = function () {
 			if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
@@ -33,7 +38,7 @@
 <Header menus={data.appMenus} error={data.error} {user} />
 
 <div class="flex px-2 mx-auto w-full">
-	<main class="lg:ml-72 w-full mx-auto">
+	<main class={mainClass}>
 		<!-- Back to top button -->
 		<Button
 			id="to-top-button"
@@ -65,7 +70,5 @@
 		{:else}
 			<slot {error} />
 		{/if}
-
-		<Footer />
 	</main>
 </div>

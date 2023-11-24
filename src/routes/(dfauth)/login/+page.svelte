@@ -8,11 +8,19 @@
 	import Cookies from 'js-cookie';
 	import { goto } from '$app/navigation';
 
+	export let data;
 	let username = field('username', '', [required()]),
-		password = field('password', '', [required()]);
+		password = field('password', '', [required()]),
+		rememberMe = field('rememeberme', '');
 	let loading = false;
 	let messages = new MessageManager();
 	let loginForm: any;
+	let userCookie: string;
+
+	if (data.userNameCookie != null) {
+		username.set(data.userNameCookie);
+		userCookie = data.userNameCookie;
+	}
 
 	loginForm = form(username, password);
 
@@ -70,5 +78,5 @@
 		};
 	}}
 >
-	<Login {password} {username} {loading} {messages} {loginForm} />
+	<Login {password} {username} {userCookie} {loading} {messages} {loginForm} />
 </form>
