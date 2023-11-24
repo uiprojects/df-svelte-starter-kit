@@ -58,6 +58,10 @@ This application template can be used as a starter kit for building Diligence Fa
 
 5. Update/create .env file at project root level (You can copy the contents from `env.sample`)
 
+6. You can update the Menu location configuration in the ENV using the variable `PUBLIC_MENU_LOCATION`. By default it renders the menu in the top bar. Here are the two values that you can provide,
+   - top: Menu appears in the top navbar
+   - side: Menu appears in a collapsible sidebar
+
 ## How to upgrade the template? (Manual Process)
 
 1. For now, Upgrading or Template Sync would be a manual process. But we will guide you throughout the process.
