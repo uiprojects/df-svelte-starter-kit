@@ -156,7 +156,7 @@ You can preview the production build with `npm run preview`.
 
 ### Automated Deployment via CI CD Process using Azure Pipelines (Azure DevOps)
 
->Will be available soon. Stay tuned!!
+> Will be available soon. Stay tuned!!
 
 ## Feedback
 

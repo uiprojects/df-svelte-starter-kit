@@ -19,7 +19,6 @@
 	function togglePassword(key: string) {
 		showPasswordTypes[key] = showPasswordTypes[key] === 'text' ? 'password' : 'text';
 	}
-
 </script>
 
 <div
