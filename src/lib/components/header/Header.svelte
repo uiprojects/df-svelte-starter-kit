@@ -185,7 +185,7 @@
 		&nbsp; &nbsp;
 		<p class="text-sm text-white">{user.UserName}</p>
 	</div>
-	<Dropdown triggeredBy=".acs">
+	<Dropdown triggeredBy=".acs" frameClass="!z-50">
 		<div slot="header" class="px-4 py-2">
 			<span class="block text-sm text-gray-900 dark:text-white"
 				><strong>{user.UserName}</strong></span
