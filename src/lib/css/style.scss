@@ -201,28 +201,28 @@ input {
 }
 
 .fade-in-from-top {
-    position: relative;
-    animation-name: fadeInFromTop;
-    animation-duration: 0.4s;
-    animation-fill-mode: both;
-  }
-  .fade-in-from-top-delay-1 {
-    position: relative;
-    animation: fadeInFromTop;
-    animation-duration: 0.4s;
-    animation-delay: 0.3s;
-    animation-fill-mode: both;
-  }
-  @keyframes fadeInFromTop {
-    from {
-      top: -15px;
-      opacity: 0;
-    }
-    to {
-      top: 0px;
-      opacity: 1;
-    }
-  }
-  svg:hover .icon-frame {
-      fill: #eee;
-  }
+	position: relative;
+	animation-name: fadeInFromTop;
+	animation-duration: 0.4s;
+	animation-fill-mode: both;
+}
+.fade-in-from-top-delay-1 {
+	position: relative;
+	animation: fadeInFromTop;
+	animation-duration: 0.4s;
+	animation-delay: 0.3s;
+	animation-fill-mode: both;
+}
+@keyframes fadeInFromTop {
+	from {
+		top: -15px;
+		opacity: 0;
+	}
+	to {
+		top: 0px;
+		opacity: 1;
+	}
+}
+svg:hover .icon-frame {
+	fill: #eee;
+}

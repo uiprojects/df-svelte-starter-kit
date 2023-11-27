@@ -6,7 +6,9 @@
 	export let email, loading: boolean, messages, forgotPasswordform;
 </script>
 
-<div class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0 fade-in-from-top">
+<div
+	class="flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0 fade-in-from-top"
+>
 	<a
 		href="https://ubtiinc.com"
 		class="flex items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white"
@@ -44,18 +46,18 @@
 			<div>
 				<p class="text-sm">
 					<i>
-						If you forgot your password, enter the email address associated
-						with your account below and press Submit. You will receive an
-						email at that address to restore access.
+						If you forgot your password, enter the email address associated with your account below
+						and press Submit. You will receive an email at that address to restore access.
 					</i>
 				</p>
 			</div>
 			<div>
-				<Label for="email" class="block mb-2">Email
+				<Label for="email" class="block mb-2"
+					>Email
 					{#if $forgotPasswordform.hasError('email.required')}
-					<span style=" padding-top: 2px; font-size: 10px; color: #d00;">
-						<strong>&nbsp;This field is required.</strong>
-					</span>
+						<span style=" padding-top: 2px; font-size: 10px; color: #d00;">
+							<strong>&nbsp;This field is required.</strong>
+						</span>
 					{/if}
 				</Label>
 				<Input
