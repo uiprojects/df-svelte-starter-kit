@@ -18,9 +18,7 @@
 		SidebarDropdownWrapper,
 		Button,
 		SidebarDropdownItem,
-
 		CloseButton
-
 	} from 'flowbite-svelte';
 	import logo from '$lib/images/your-logo.png';
 	import './style.scss';
@@ -32,8 +30,8 @@
 	// "top": Menu appears in the top navbar.
 	// "side": Menu appears in a collapsible sidebar.
 	let drawerHidden: boolean = false;
-	if(!env?.PUBLIC_MENU_LOCATION){
-		env.PUBLIC_MENU_LOCATION = "top"
+	if (!env?.PUBLIC_MENU_LOCATION) {
+		env.PUBLIC_MENU_LOCATION = 'top';
 	}
 	let transitionParams = {
 		x: -320,
@@ -187,7 +185,7 @@
 		&nbsp; &nbsp;
 		<p class="text-sm text-white">{user.UserName}</p>
 	</div>
-	<Dropdown triggeredBy=".acs">
+	<Dropdown triggeredBy=".acs" frameClass="!z-50">
 		<div slot="header" class="px-4 py-2">
 			<span class="block text-sm text-gray-900 dark:text-white"
 				><strong>{user.UserName}</strong></span
@@ -329,10 +327,16 @@
 				</SidebarGroup>
 			</SidebarWrapper>
 		</Sidebar>
-		<div style="position: fixed; left: 0; bottom: 0; color: white; font-size: 10px; padding: 6px;">
+		<div class="ubti-footer">
 			<strong>Powered by <a href="https://ubtiinc.com/" style="color: white;">UBTI</a></strong>
 			<br />
 			© {new Date().getFullYear()} UB Technology Innovations, Inc.
 		</div>
 	</Drawer>
+{:else}
+	<div class="ubti-footer">
+		<strong>Powered by <a href="https://ubtiinc.com/" style="color: white;">UBTI</a></strong>
+		<br />
+		© {new Date().getFullYear()} UB Technology Innovations, Inc.
+	</div>
 {/if}
