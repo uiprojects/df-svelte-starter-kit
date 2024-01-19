@@ -2,16 +2,19 @@
 	import '$lib/css/style.scss';
 	import '../../app.postcss';
 	import { navigating } from '$app/stores';
-	import { Spinner, Button } from 'flowbite-svelte';
+	import { Spinner, Button, Alert } from 'flowbite-svelte';
 
 	import { onMount } from 'svelte';
 	import Header from '$lib/components/header/Header.svelte';
 	import { env } from '$env/dynamic/public';
+	import { InfoCircleSolid } from 'flowbite-svelte-icons';
+
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	export let data;
 
 	const user = data.user;
 	const error = data.error;
+
 	let mainClass =
 		env.PUBLIC_MENU_LOCATION === 'top' || !env?.PUBLIC_MENU_LOCATION
 			? 'w-full mx-auto'
@@ -61,6 +64,22 @@
 				/></svg
 			></Button
 		>
+		{#if data.error}
+		<Alert color="red" class="mt-5 w-[60rem] m-auto mb-10">
+			<div class="flex items-center gap-3">
+				<InfoCircleSolid slot="icon" class="w-5 h-5" />
+				<span class="text-lg font-medium"
+					>Oops! It seems there has been an error, sorry about that :(</span
+				>
+			</div>
+			<p class="mt-2 mb-4 text-sm">
+			      {data.error}
+			</p>
+			<div class="flex gap-2">
+				<Button size="xs" href="/" outline class="dark:!text-primary-800">Go to Home</Button>
+			</div>
+		</Alert>
+		{/if}
 
 		{#if $navigating}
 			<!-- LOOK HERE -->

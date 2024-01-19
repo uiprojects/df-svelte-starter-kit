@@ -144,7 +144,7 @@
 				Home
 			</NavLi>
 			{#each Object.entries(menus) as [key, value]}
-				{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
+				{#if menus[key].childMenus && menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 					<NavLi
 						id="nav-menu{value.AppMenuID}"
 						activeClass="bg-white !text-primary-100 hover:bg-white"
