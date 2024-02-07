@@ -144,7 +144,7 @@
 				Home
 			</NavLi>
 			{#each Object.entries(menus) as [key, value]}
-				{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
+				{#if menus[key].childMenus && menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 					<NavLi
 						id="nav-menu{value.AppMenuID}"
 						activeClass="bg-white !text-primary-100 hover:bg-white"
@@ -165,7 +165,7 @@
 							{value.AppMenuLabel}
 						</Chevron>
 					</NavLi>
-					<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" class="w-44 z-20">
+					<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" frameClass="z-20">
 						{#each Object.entries(menus[key].childMenus) as [key, value]}
 							<DropdownItem href={value.AppMenuActionURL}>
 								{value.AppMenuLabel}
@@ -185,7 +185,7 @@
 		&nbsp; &nbsp;
 		<p class="text-sm text-white">{user.UserName}</p>
 	</div>
-	<Dropdown triggeredBy=".acs" frameClass="!z-50">
+	<Dropdown triggeredBy=".acs" frameClass="z-50">
 		<div slot="header" class="px-4 py-2">
 			<span class="block text-sm text-gray-900 dark:text-white"
 				><strong>{user.UserName}</strong></span
