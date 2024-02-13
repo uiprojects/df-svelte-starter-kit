@@ -24,6 +24,7 @@
 	import './style.scss';
 	import { onMount } from 'svelte';
 	import { env } from '$env/dynamic/public';
+	import { ChevronDownSolid, ChevronRightSolid } from 'flowbite-svelte-icons';
 	export let user, menus, error;
 
 	// The PUBLIC_MENU_LOCATION env variable controls how the menu appears.
@@ -43,7 +44,7 @@
 	let width: number;
 	let activateClickOutside = true;
 	let hoverDropMenu: { [key: number]: boolean } = {};
-
+	let hoverDropMenus: { [key: number]: boolean } = {};
 	$: if (width >= breakPoint) {
 		drawerHidden = false;
 		activateClickOutside = false;
@@ -56,6 +57,9 @@
 		Object.keys(hoverDropMenu).forEach((key) => {
 			hoverDropMenu[key] = false;
 		});
+		Object.keys(hoverDropMenus).forEach((key) => {
+			hoverDropMenu[key] = false;
+		});
 	};
 
 	const toggleSide = () => {
@@ -63,13 +67,26 @@
 		drawerHidden = !drawerHidden;
 		// }
 	};
-
+	//level 0 hover open 
 	const changeDropdown = (appMenuID: number) => {
 		hoverDropMenu = {
 			[appMenuID]: true
 		};
 	};
-
+	//level 1 hover open 
+	const changeDropdowns = (appMenuID: number) => {
+		hoverDropMenus = {
+			[appMenuID]: true
+		};
+	
+	};
+	//level 1 hover close 
+	const closeDropdowns = (appMenuID: number) => {
+		hoverDropMenus = {
+			[appMenuID]: false
+		};
+	
+	};
 	onMount(() => {
 		if (width >= breakPoint) {
 			drawerHidden = false;
@@ -154,24 +171,41 @@
 						{value.AppMenuLabel}
 					</NavLi>
 				{:else if menus[key].ParenAppMenuID == 0}
-					<NavLi
-						id="nav-menu{value.AppMenuID}"
-						activeClass="bg-white !text-primary-100 hover:bg-white"
-						class="cursor-pointer !p-1 text-white hover:!text-white"
-						href={value.AppMenuActionURL}
-						on:mouseover={() => changeDropdown(value.AppMenuID)}
-					>
-						<Chevron aligned>
-							{value.AppMenuLabel}
-						</Chevron>
-					</NavLi>
-					<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" class="w-44 z-20">
-						{#each Object.entries(menus[key].childMenus) as [key, value]}
-							<DropdownItem href={value.AppMenuActionURL}>
+					<div class="relative">
+						<NavLi
+							id="nav-menu{value.AppMenuID}"
+							activeClass="bg-white !text-primary-100 hover:bg-white"
+							class="cursor-pointer !p-1 text-white hover:!text-white"
+							href={value.AppMenuActionURL}
+							on:mouseover={() => changeDropdown(value.AppMenuID)}
+						>
+							<Chevron aligned>
 								{value.AppMenuLabel}
-							</DropdownItem>
-						{/each}
-					</Dropdown>
+							</Chevron>
+						</NavLi>
+						<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" class="w-44 z-20">
+							{#each Object.entries(menus[key].childMenus) as [childKey, childValue]}
+							  <div class="flex justify-between items-center mb-2">
+								<NavLi class="flex-grow" on:mouseover={() => changeDropdowns(childValue.AppMenuID)} on:mouseleave={() => closeDropdowns(childValue.AppMenuID)}>
+								  {childValue.AppMenuLabel}
+								</NavLi>
+								{#if childValue.child_Menus && childValue.child_Menus.length > 0}
+								  <ChevronRightSolid class="w-2 h-4 text-black" on:mouseover={() => changeDropdowns(childValue.AppMenuID)}/>
+								{/if}
+							  </div>
+							  <!-- Add more conditions or levels as needed -->
+							  {#if childValue.child_Menus && childValue.child_Menus.length > 0}
+								<Dropdown bind:open={hoverDropMenus[childValue.AppMenuID]} id={`dropdownHover${childValue.AppMenuID}`} class="w-44 z-20 bg-white-100 rounded-md shadow-md absolute top-[-35px] left-14 ml-8 hover:text-black">
+								  {#each childValue.child_Menus as secondLevelMenu}
+									<DropdownItem href={secondLevelMenu.AppMenuActionURL}>
+									  {secondLevelMenu.AppMenuLabel}
+									</DropdownItem>
+								  {/each}
+								</Dropdown>
+							  {/if}
+							{/each}
+						  </Dropdown>
+					</div>
 				{/if}
 			{/each}
 		</NavUl>
