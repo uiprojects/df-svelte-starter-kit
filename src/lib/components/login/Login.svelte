@@ -102,7 +102,9 @@
 	function addMsalLoggedUser(msalResponse: any) {
 		console.log('msal', msalResponse);
 		username = msalResponse.account.username;
-		console.log('username ', username);
+		console.log('username------------ ', username);
+
+
 	}
 
 	function microsoftLogout(username: string) {
