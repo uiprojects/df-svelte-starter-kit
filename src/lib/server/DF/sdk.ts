@@ -3,6 +3,8 @@ import { DiligenceFabricClient } from '@ubti/diligence-fabric-sdk';
 
 export const client = new DiligenceFabricClient();
 
+export const logger = client.getDFLoggerService()
+
 export const renderLayout = async (locals: any, url: any) => {
 	client.setAuthUser(locals.user);
 
@@ -17,9 +19,12 @@ export const renderLayout = async (locals: any, url: any) => {
 		if (authzResponse.empty) {
 			dataReturn.error = authzResponse.message;
 		}
+		
 		return dataReturn;
+
 	} catch (error) {
 		console.log(error);
+		logger.log('Error','Layout','Layout Response Error : '+JSON.stringify(error))
 		return { appMenus: [], user: locals.user, error: error };
 	}
 };
