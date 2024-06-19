@@ -1,4 +1,4 @@
-import { client } from '$lib/server/DF/sdk';
+import { client, logger } from '$lib/server/DF/sdk';
 export const actions = {
 	submit: async ({ request }) => {
 		const data = await request.formData();
@@ -16,6 +16,7 @@ export const actions = {
 			}
 		} catch (ex) {
 			console.log(ex);
+			logger.log('Error','Forgot Password','Forgot Password Error : '+JSON.stringify(ex.body.Result?.ErrorMessage))
 			return { status: 'ERROR', message: ex.body.Result?.ErrorMessage };
 		}
 	}

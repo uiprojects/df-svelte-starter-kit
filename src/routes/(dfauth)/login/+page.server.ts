@@ -1,24 +1,31 @@
 import { env } from '$env/dynamic/private';
-import { client } from '$lib/server/DF/sdk';
+import { client, logger } from '$lib/server/DF/sdk';
 import { DiligenceFabricClient } from '@ubti/diligence-fabric-sdk';
 
 
 
 export const load = async ({ cookies }) => {
-	const client = new DiligenceFabricClient();
+	let authenticationTypeResponse
+	try {
+		const client = new DiligenceFabricClient();
 
-	const AuthenticationTypeList = {
-		TenantID: undefined,
-		AuthenticationTypeCode: 'MS',
-		CalledBy: undefined
+		const AuthenticationTypeList = {
+			TenantID: undefined,
+			AuthenticationTypeCode: 'MS',
+			CalledBy: undefined
+		}
+
+		authenticationTypeResponse = await client.getAuthenticationTypeService().getAuthenticationType(AuthenticationTypeList)
+
+	}
+	catch (error) {
+            logger.log('Error','Load','Error Retrieiving auht type'+JSON.stringify(error))
 	}
 
-	let authenticationTypeResponse = await client.getAuthenticationTypeService().getAuthenticationType(AuthenticationTypeList)
-
-	return {
-		userNameCookie: cookies.get('df_ds_rem_user'),
-		authenticationTypeResult: authenticationTypeResponse.Result
-	};
+		return {
+			userNameCookie: cookies.get('df_ds_rem_user'),
+			authenticationTypeResult: authenticationTypeResponse?.Result
+		};
 };
 
 
@@ -53,6 +60,9 @@ async function login(authenticationRequest: any) {
 		}
 	}
 	catch (ex: any) {
+
+		logger.log('Error', 'Login', 'Login Response Error : ' + JSON.stringify(ex))
+
 		return { status: 'ERROR', message: ex.body.Result?.ErrorMessage };
 	}
 }
@@ -75,17 +85,24 @@ export const actions = {
 
 	},
 	microsoftLoginSubmit: async ({ request, cookies }) => {
-		const data = await request.formData();
+		let authenticationResponse
+		try {
+			const data = await request.formData();
 
-		const { microsoftUsername, microsoftToken, authenticationTypeCode } = Object.fromEntries(data);
+			const { microsoftUsername, microsoftToken, authenticationTypeCode } = Object.fromEntries(data);
 
-		let authenticationRequest = {
-			username: microsoftUsername,
-			accessToken: microsoftToken,
-			authenticationTypeCode: authenticationTypeCode
+			let authenticationRequest = {
+				username: microsoftUsername,
+				accessToken: microsoftToken,
+				authenticationTypeCode: authenticationTypeCode
+			}
+
+			authenticationResponse = await login(authenticationRequest)
 		}
-
-		const authenticationResponse = await login(authenticationRequest)
+		catch (error: any) {
+			console.log('Error MSAL : ', error)
+			logger.log('Error', 'MSAL Login Submit', 'MSAL Login Error Response : ' + JSON.stringify(error.body.Result?.ErrorMessage))
+		}
 
 		return authenticationResponse
 

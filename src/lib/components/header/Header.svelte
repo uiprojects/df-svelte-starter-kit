@@ -171,41 +171,24 @@
 						{value.AppMenuLabel}
 					</NavLi>
 				{:else if menus[key].ParenAppMenuID == 0}
-					<div class="relative">
-						<NavLi
-							id="nav-menu{value.AppMenuID}"
-							activeClass="bg-white !text-primary-100 hover:bg-white"
-							class="cursor-pointer !p-1 text-white hover:!text-white"
-							href={value.AppMenuActionURL}
-							on:mouseover={() => changeDropdown(value.AppMenuID)}
-						>
-							<Chevron aligned>
+					<NavLi
+						id="nav-menu{value.AppMenuID}"
+						activeClass="bg-white !text-primary-100 hover:bg-white"
+						class="cursor-pointer !p-1 text-white hover:!text-white"
+						href={value.AppMenuActionURL}
+						on:mouseover={() => changeDropdown(value.AppMenuID)}
+					>
+						<Chevron aligned>
+							{value.AppMenuLabel}
+						</Chevron>
+					</NavLi>
+					<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" class="w-44 z-20">
+						{#each Object.entries(menus[key].childMenus) as [key, value]}
+							<DropdownItem href={value.AppMenuActionURL}>
 								{value.AppMenuLabel}
-							</Chevron>
-						</NavLi>
-						<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" class="w-44 z-20">
-							{#each Object.entries(menus[key].childMenus) as [childKey, childValue]}
-							  <div class="flex justify-between items-center mb-2">
-								<NavLi class="flex-grow" on:mouseover={() => changeDropdowns(childValue.AppMenuID)} on:mouseleave={() => closeDropdowns(childValue.AppMenuID)}>
-								  {childValue.AppMenuLabel}
-								</NavLi>
-								{#if childValue.child_Menus && childValue.child_Menus.length > 0}
-								  <ChevronRightSolid class="w-2 h-4 text-black" on:mouseover={() => changeDropdowns(childValue.AppMenuID)}/>
-								{/if}
-							  </div>
-							  <!-- Add more conditions or levels as needed -->
-							  {#if childValue.child_Menus && childValue.child_Menus.length > 0}
-								<Dropdown bind:open={hoverDropMenus[childValue.AppMenuID]} id={`dropdownHover${childValue.AppMenuID}`} class="w-44 z-20 bg-white-100 rounded-md shadow-md absolute top-[-35px] left-14 ml-8 hover:text-black">
-								  {#each childValue.child_Menus as secondLevelMenu}
-									<DropdownItem href={secondLevelMenu.AppMenuActionURL}>
-									  {secondLevelMenu.AppMenuLabel}
-									</DropdownItem>
-								  {/each}
-								</Dropdown>
-							  {/if}
-							{/each}
-						  </Dropdown>
-					</div>
+							</DropdownItem>
+						{/each}
+					</Dropdown>
 				{/if}
 			{/each}
 		</NavUl>
@@ -219,7 +202,7 @@
 		&nbsp; &nbsp;
 		<p class="text-sm text-white">{user.UserName}</p>
 	</div>
-	<Dropdown triggeredBy=".acs" frameClass="!z-50">
+	<Dropdown triggeredBy=".acs" frameClass="z-50">
 		<div slot="header" class="px-4 py-2">
 			<span class="block text-sm text-gray-900 dark:text-white"
 				><strong>{user.UserName}</strong></span
