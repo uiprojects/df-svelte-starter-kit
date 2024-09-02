@@ -89,13 +89,13 @@
 				{/if}
 			</div>
 			<div class="flex flex-row items-center justify-between">
-				<Button type="submit" color="primary" size="xs" disabled={loading}>
-					Submit
+				<Button type="submit" color="primary" class="font-Sen" size="xs" disabled={loading}>
+					Send reset password link
 					{#if loading}
 						<Spinner class="ml-3" size="4" color="white" />
 					{/if}</Button
 				>
-				<Button type="button" color="alternative" size="xs" href="/login">Wanna Login?</Button>
+				<Button type="button" color="alternative" size="xs" class="font-Sen" href="/login">Try Login?</Button>
 			</div>
 		</div>
 	</div>

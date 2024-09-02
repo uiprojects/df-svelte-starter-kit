@@ -62,7 +62,6 @@
 	};
 
 	async function microsoftSignIn() {
-		console.log('inside msal');
 		try {
 			const loginResponse = await msalInstance.loginPopup(loginRequest);
 			return loginResponse;
@@ -181,6 +180,7 @@
 					if (result.type == 'success') {
 						if (result.data.status === 'SUCCESS') {
 							const response = result.data.response;
+
 							Toast.fire({
 								icon: 'success',
 								iconColor: 'white',
@@ -188,6 +188,8 @@
 								color: 'white',
 								background: 'green'
 							});
+
+							
 							Cookies.set('df_user', JSON.stringify(response?.Result), {
 								expires: new Date(response.Result.ExpiresUtc)
 							});
@@ -195,9 +197,11 @@
 							Cookies.set('token', response.Result.Token, {
 								expires: new Date(response?.Result?.ExpiresUtc)
 							});
+
 							resetForm();
 							goto('/');
-						} else {
+						}
+						 else {
 							messages.showError(result.data?.message);
 						}
 					}
@@ -209,9 +213,9 @@
 		>
 			<div class="p-6 mb-2 space-y-4 md:space-y-6 sm:p-8">
 				<h1
-					class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+					class="text-xl text-left font-Sen leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
 				>
-					Sign in to your account
+					Log in
 				</h1>
 				{#if messages.toggle}
 					<Alert border color="red" dismissable>
@@ -234,7 +238,7 @@
 					</Alert>
 				{/if}
 				<div>
-					<Label for="username" class="block mb-2"
+					<Label for="username" class="font-Nunito block mb-2"
 						>Username or Email
 						{#if $loginForm.hasError('username.required')}
 							<span style=" padding-top: 2px; margin-bottom: -2px; font-size: 10px; color: #d00;">
@@ -248,6 +252,7 @@
 						id="username"
 						color={$loginForm.hasError('username.required') ? 'red' : 'base'}
 						placeholder="name@example.com"
+						class="font-Nunito text-black"
 						bind:value={$username.value}
 						on:input={onInput}
 						required
@@ -266,22 +271,10 @@
 							</g>
 						</svg>
 					</Input>
-					<!-- <Helper class="mt-2 text-gray-200 bg-none" color="gray">
-						<span class="font-medium"
-							>or continue with
-		
-							<button type="button" class="bg-none" on:click={ ()=> microsoftSignIn() } >
-								<img
-									class="w-8 h-8 ml-[0.15rem] inline-block"
-									src={microsoftIcon}
-									alt="microsoftIcon"
-								/>
-							</button>
-						</span>
-					</Helper> -->
+					
 				</div>
 				<div>
-					<Label for="password" class="block mb-2"
+					<Label for="password" class="font-Nunito block mb-2"
 						>Password
 						{#if $loginForm.hasError('password.required')}
 							<span style=" padding-top: 2px; top: -20px; font-size: 10px; color: #d00;">
@@ -294,6 +287,7 @@
 						name="password"
 						id="password"
 						color={$loginForm.hasError('password.required') ? 'red' : 'base'}
+						class="font-Nunito text-black"
 						placeholder="Password"
 						bind:value={$password.value}
 						required
@@ -355,14 +349,14 @@
 								aria-describedby="remember"
 								type="checkbox"
 								name="rememberMe"
-								class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+								class="text-primary-50  w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
 							/>
 						</div>
 						<div class="ml-3 text-xs">
-							<label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
+							<label for="remember" class="font-Nunito text-black text-sm  text-gray-500 dark:text-gray-300">Remember me</label>
 						</div>
 					</div>
-					<Button type="button" color="alternative" size="xs" href="/forgot-password">
+					<Button type="button" color="alternative"  class="font-Sen text-base" size="xs" href="/forgot-password">
 						Forgot password?
 					</Button>
 				</div>
@@ -370,14 +364,14 @@
 					<Button
 						type="submit"
 						color="primary"
-						class="text-white rounded-lg text-center dark:bg-primary-600"
+						class="w-96 font-Sen text-white rounded-lg text-center dark:bg-primary-600"
 						disabled={loading}
 						id="btnLogin"
 					>
 						{#if loading}
 							<Spinner class="mr-3" size="4" color="white" />Signing in...
 						{:else}
-							Sign in
+							Log in
 						{/if}
 					</Button>
 				</div>
@@ -440,10 +434,10 @@
 
 				<button
 					type="submit"
-					class="p-1 bg-[#eee] border-solid border-[#eee] rounded text-base text-center hover:bg-gray-300"
+					class="p-1 text-black bg-[#eee] border-solid border-[#eee] rounded text-base text-center hover:bg-gray-300"
 				>
 					<img class="w-8 h-8 ml-[0.15rem] inline-block" src={microsoftIcon} alt="microsoftIcon" />
-					Sign in with Microsoft
+					Continue with Microsoft
 				</button>
 				<!-- </span> -->
 				<!-- </Helper> -->

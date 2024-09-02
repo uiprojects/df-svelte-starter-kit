@@ -35,7 +35,7 @@
 	>
 		<div class="p-6 space-y-4 md:space-y-6 sm:p-8">
 			<h1
-				class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+				class="text-xl text-center font-Sen font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
 			>
 				Change Password
 			</h1>
@@ -44,7 +44,7 @@
 					<span slot="icon" transition:fade
 						><svg
 							aria-hidden="true"
-							class="w-5 h-5"
+							class="w-5 h-5 font-display"
 							fill="currentColor"
 							viewBox="0 0 20 20"
 							xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@
 				</Alert>
 			{/if}
 			<div>
-				<Label for="oldpassword" class="block mb-2"
+				<Label for="oldpassword" class="font-Nunito block mb-2"
 					>Old Password
 					{#if $changePasswordform.hasError('oldPassword.required')}
 						<span style=" padding-top: 2px; font-size: 10px; color: #b00;">
@@ -116,7 +116,7 @@
 				</Input>
 			</div>
 			<div>
-				<Label for="newpassword" class="block mb-2"
+				<Label for="newpassword" class="font-Nunito block mb-2"
 					>New Password
 					{#if $changePasswordform.hasError('newPassword.required')}
 						<span style=" padding-top: 2px; font-size: 10px; color: #b00;">
@@ -173,7 +173,7 @@
 				</Input>
 			</div>
 			<div>
-				<Label for="confirmNewpassword" class="block mb-2"
+				<Label for="confirmNewpassword" class="font-Nunito block mb-2"
 					>Confirm New Password
 					{#if $changePasswordform.hasError('confirmNewpassword.required')}
 						<span style=" padding-top: 2px; font-size: 10px; color: #b00;">
@@ -237,13 +237,13 @@
 				</Input>
 			</div>
 			<div class="flex flex-row items-center justify-between">
-				<Button type="submit" color="primary" size="xs" disabled={loading}
+				<Button type="submit" color="primary" class="font-Nunito" size="xs" disabled={loading}
 					>Submit
 					{#if loading}
 						<Spinner class="ml-3" size="4" color="white" />
 					{/if}</Button
 				>
-				<Button type="button" color="alternative" size="xs" href="/">Go Back</Button>
+				<Button type="button" color="alternative" class="font-Sen" size="xs" href="/">Go Back</Button>
 			</div>
 		</div>
 	</div>

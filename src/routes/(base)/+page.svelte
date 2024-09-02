@@ -14,7 +14,12 @@
 </script>
 
 <div class="mt-10">
-	<P class="text-2xl lg:text-2xl text-center font-extrabold sm:px-16 xl:px-40 dark:text-gray-400"
-		>Welcome to DF Svelte Starter Kit demonstration</P
+	<h2
+		class="text-2xl lg:text-2xl text-center font-bold font-display sm:px-16 xl:px-40 dark:text-gray-400"
 	>
+		Diligence Fabric Svelte Starter Kit
+	</h2>
+	<div class="mt-2 flex justify-center">
+		<p class="font-display font-bold">Minimal starter template for developing web applications</p>
+	</div>
 </div>
