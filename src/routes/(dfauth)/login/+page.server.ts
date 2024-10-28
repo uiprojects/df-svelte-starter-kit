@@ -19,15 +19,14 @@ export const load = async ({ cookies }) => {
 
 	}
 	catch (error) {
-            logger.log('Error','Load','Error Retrieiving auht type'+JSON.stringify(error))
+		logger.log('Error', 'Load', 'Error Retrieiving auht type' + JSON.stringify(error))
 	}
 
-		return {
-			userNameCookie: cookies.get('df_ds_rem_user'),
-			authenticationTypeResult: authenticationTypeResponse?.Result
-		};
+	return {
+		userNameCookie: cookies.get('df_ds_rem_user'),
+		authenticationTypeResult: authenticationTypeResponse?.Result
+	};
 };
-
 
 async function login(authenticationRequest: any) {
 
@@ -40,12 +39,7 @@ async function login(authenticationRequest: any) {
 
 			if (response.StatusCode === 200) {
 
-				if (authenticationRequest.rememberMe == 'on') {
-
-					cookies.set('df_ds_rem_user', authenticationRequest.username, {
-						maxAge: 605800 // 60 * 60 * 24 * 7 - approx 1 week
-					});
-				}
+			
 				return { status: 'SUCCESS', response: response, message: 'Login Successfull!' };
 			}
 			else {
@@ -80,6 +74,13 @@ export const actions = {
 		}
 
 		const authenticationResponse = await login(authenticationRequest)
+
+		if (authenticationRequest.rememberMe == 'on' && authenticationResponse.response?.StatusCode == 200) {
+
+			cookies.set('df_ds_rem_user', authenticationResponse.response?.Result.UserName, {
+				maxAge: 605800 // 60 * 60 * 24 * 7 - approx 1 week
+			});
+		}
 
 		return authenticationResponse
 

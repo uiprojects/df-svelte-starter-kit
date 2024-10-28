@@ -20,7 +20,7 @@
 		SidebarDropdownItem,
 		CloseButton
 	} from 'flowbite-svelte';
-	import logo from '$lib/images/your-logo.png';
+	import logo from '$lib/images/DF-Logo.svg';
 	import './style.scss';
 	import { onMount } from 'svelte';
 	import { env } from '$env/dynamic/public';
@@ -125,7 +125,7 @@
 		</Button>
 	{/if}
 
-	<img src={logo} class="h-10" alt="Logo" />
+	<img src={logo} class="h-12" alt="Logo" />
 
 	{#if env.PUBLIC_MENU_LOCATION == 'top'}
 		<NavHamburger on:click={toggle} btnClass="md:hidden bg-white" />
