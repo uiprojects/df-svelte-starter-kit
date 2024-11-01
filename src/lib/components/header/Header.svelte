@@ -24,6 +24,7 @@
 	import './style.scss';
 	import { onMount } from 'svelte';
 	import { env } from '$env/dynamic/public';
+	import { ChevronRightSolid } from 'flowbite-svelte-icons';
 	export let user, menus, error;
 
 	// The PUBLIC_MENU_LOCATION env variable controls how the menu appears.
@@ -43,6 +44,7 @@
 	let width: number;
 	let activateClickOutside = true;
 	let hoverDropMenu: { [key: number]: boolean } = {};
+	let hoverDropMenus: { [key: number]: boolean } = {};
 
 	$: if (width >= breakPoint) {
 		drawerHidden = false;
@@ -71,6 +73,7 @@
 	};
 
 	onMount(() => {
+
 		if (width >= breakPoint) {
 			drawerHidden = false;
 			activateClickOutside = false;
@@ -83,6 +86,19 @@
 			document.removeEventListener('click', handleClickOutside);
 		};
 	});
+
+	const changeDropdowns = (appMenuID: number) => {
+		hoverDropMenus = {
+			[appMenuID]: true
+		};
+	};
+
+	//level 1 hover close
+	const closeDropdowns = (appMenuID: number) => {
+		hoverDropMenus = {
+			[appMenuID]: false
+		};
+	};
 </script>
 
 <svelte:window bind:innerWidth={width} />
@@ -154,24 +170,62 @@
 						{value.AppMenuLabel}
 					</NavLi>
 				{:else if menus[key].ParenAppMenuID == 0}
-					<NavLi
-						id="nav-menu{value.AppMenuID}"
-						activeClass="bg-primary-50 !text-primary-100 hover:bg-primary-50"
-						class="cursor-pointer text-black !p-1 hover:!text-white hover:!bg-primary-50"
-						href={value.AppMenuActionURL}
-						on:mouseover={() => changeDropdown(value.AppMenuID)}
-					>
-						<Chevron aligned>
-							{value.AppMenuLabel}
-						</Chevron>
-					</NavLi>
-					<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" frameClass="z-20">
-						{#each Object.entries(menus[key].childMenus) as [key, value]}
-							<DropdownItem href={value.AppMenuActionURL} class="hover:!text-white hover:!bg-primary-50">
+					<div class="relative">
+						<NavLi
+							id="nav-menu{value.AppMenuID}"
+							activeClass="bg-primary-50 !text-primary-100 hover:bg-primary-50"
+							class="group cursor-pointer text-black !p-1 hover:!text-white hover:!bg-primary-50"
+							href={value.AppMenuActionURL}
+							on:mouseover={() => changeDropdown(value.AppMenuID)}
+						>
+							<Chevron aligned>
 								{value.AppMenuLabel}
-							</DropdownItem>
-						{/each}
-					</Dropdown>
+							</Chevron>
+						</NavLi>
+						<Dropdown
+							bind:open={hoverDropMenu[value.AppMenuID]}
+							id="dropdownHover"
+							frameClass="z-20"
+						>
+							{#each Object.entries(menus[key].childMenus) as [childKey, childValue]}
+								<div class="flex justify-between items-center mb-2 hover:!text-white hover:!bg-primary-50"
+							>
+									<a
+										href="#"
+										class=" mt-2 hover:!text-white hover:!bg-primary-50"
+										on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
+										on:mouseleave={() => closeDropdowns(childValue.AppMenuID)}
+									>
+										{childValue.AppMenuLabel}
+									</a>
+
+									{#if childValue.child_Menus && childValue.child_Menus.length > 0}
+										<ChevronRightSolid
+											class="w-1.5 h-4 mr-2 !text-black hover:!text-white hover:!bg-primary-50"
+											on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
+										/>
+									{/if}
+								</div>
+
+								<!-- Add more conditions or levels as needed -->
+								{#if childValue.child_Menus && childValue.child_Menus.length > 0}
+									<Dropdown
+										bind:open={hoverDropMenus[childValue.AppMenuID]}
+										id={`dropdownHover${childValue.AppMenuID}`}
+										class="w-44 !z-20 bg-white-100 rounded-md shadow-md absolute top-[-35px] left-14 ml-10 hover:text-black"
+									>
+										{#each childValue.child_Menus as secondLevelMenu}
+											<DropdownItem href={secondLevelMenu.AppMenuActionURL} class="!bg-white hover:!text-white hover:!bg-primary-50">
+												{secondLevelMenu.AppMenuLabel}
+											</DropdownItem>
+										{/each}
+									</Dropdown>
+								{/if}
+							{/each}
+
+							<!-- </DropdownItem> -->
+						</Dropdown>
+					</div>
 				{/if}
 			{/each}
 		</NavUl>
@@ -297,7 +351,11 @@
 								href={value.AppMenuActionURL}
 							>
 								<svelte:fragment slot="arrowup">
-									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 !text-black group-hover:!text-white" viewBox="0 0 512 512">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="w-4 h-4 !text-black group-hover:!text-white"
+										viewBox="0 0 512 512"
+									>
 										<path
 											fill="currentcolor"
 											d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"
@@ -305,7 +363,11 @@
 									</svg>
 								</svelte:fragment>
 								<svelte:fragment slot="arrowdown">
-									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 !text-black group-hover:!text-white" viewBox="0 0 512 512">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="w-4 h-4 !text-black group-hover:!text-white"
+										viewBox="0 0 512 512"
+									>
 										<path
 											fill="currentcolor"
 											d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
