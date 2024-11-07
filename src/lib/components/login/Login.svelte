@@ -1,5 +1,5 @@
 <script lang="ts">
-	import logo from '$lib/images/your-logo.png';
+	import logo from '$lib/images/DF-Logo.svg';
 	import { PublicClientApplication } from '@azure/msal-browser';
 	import { Alert, Button, Helper, Input, Label, Spinner } from 'flowbite-svelte';
 	import microsoftIcon from '$lib/images/microsoftIcon.svg';
@@ -26,7 +26,7 @@
 	let msalConfig: any;
 	let userAuthenticatedResponse: any;
 
-	let username = field('username', '', [required()]),
+	let username = field('username', userCookie || ''  , [required()]),
 		password = field('password', '', [required()]),
 		rememberMe = field('rememeberme', '');
 
@@ -70,38 +70,10 @@
 			loading = false
 		}
 
-		// .then((response: any) => {
-		// 	console.log('printing resp ', response.account);
-		// 	// addMsalLoggedUser(response);
-
-		// 	// msalInstance.setActiveAccount(response.account);
-
-		// 	// formData["microsoftUsername"] = response.account.username
-
-		// 	formData.append('microsoftUsername', response.account.username);
-
-		// 	console.log('username', microsoftUsername);
-		// 	// username = loginResponse.account
-		// 	// if (msalInstance.getAccount()) {
-		// 	// 	showWelcomeMessage(msalInstance.getAccount());
-		// 	// }
-		// })
-		// .catch((error: any) => {
-		// 	console.log('error is ', error);
-		// });
-
-		// const accounts = msalInstance.getAllAccounts();
-		// if (accounts.length === 0) {
-		// 	msalInstance.loginRedirect();
-		// }
-
-		// await msalInstance.loginRedirect(loginRequest)
 	}
 
 	function addMsalLoggedUser(msalResponse: any) {
-		console.log('msal', msalResponse);
 		username = msalResponse.account.username;
-		console.log('username ', username);
 	}
 
 	function microsoftLogout(username: string) {
@@ -156,7 +128,7 @@
 		href="https://ubtiinc.com"
 		class="flex items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white"
 	>
-		<img class="w-90 h-20 mr-2" src={logo} alt="UBTI" />
+		<img class="!w-50 h-[143px] mr-2" src={logo} alt="UBTI" />
 	</a>
 	<div
 		class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 fade-in-from-top-delay-1"
@@ -188,8 +160,7 @@
 								color: 'white',
 								background: 'green'
 							});
-
-							
+                                
 							Cookies.set('df_user', JSON.stringify(response?.Result), {
 								expires: new Date(response.Result.ExpiresUtc)
 							});
@@ -386,8 +357,6 @@
 				loading = true;
 
 				let microsoftSignInResponse = await microsoftSignIn();
-
-				console.log('mic', microsoftSignInResponse);
 
 				formData.append('microsoftUsername', microsoftSignInResponse.account.username);
 				formData.append('microsoftToken', microsoftSignInResponse.accessToken);
