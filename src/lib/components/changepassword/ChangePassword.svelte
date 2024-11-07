@@ -1,5 +1,5 @@
 <script lang="ts">
-	import logo from '$lib/images/your-logo.png';
+	import logo from '$lib/images/DF-Logo.svg';
 	import { Alert, Button, Input, Label, Spinner } from 'flowbite-svelte';
 	import { fade } from 'svelte/transition';
 
@@ -28,7 +28,7 @@
 		href="https://ubtiinc.com"
 		class="flex items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white"
 	>
-		<img class="w-90 h-20 mr-2" src={logo} alt="Logo" />
+		<img class="!w-50 h-[143px] mr-2" src={logo} alt="Logo" />
 	</a>
 	<div
 		class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 fade-in-from-top-delay-1"
