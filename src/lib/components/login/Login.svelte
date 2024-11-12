@@ -90,7 +90,7 @@
 		msalConfig = {
 			auth: {
 				clientId: authenticationTypeList.ClientOrAppIDConfig,
-				authority: `https://login.microsoftonline.com/${authenticationTypeList.ProviderTenantIDConfig}`,
+				authority: `https://login.microsoftonline.com/common`,
 				redirectUri: window.location.origin + '/login'
 			},
 			cache: {
