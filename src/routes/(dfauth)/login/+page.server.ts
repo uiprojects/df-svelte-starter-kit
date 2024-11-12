@@ -77,7 +77,7 @@ export const actions = {
 
 		if (authenticationRequest.rememberMe == 'on' && authenticationResponse.response?.StatusCode == 200) {
 
-			cookies.set('df_ds_rem_user', authenticationResponse.response?.Result.UserName, {
+			cookies.set('df_ds_rem_user', username.toString(), {
 				maxAge: 605800 // 60 * 60 * 24 * 7 - approx 1 week
 			});
 		}
