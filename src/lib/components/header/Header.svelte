@@ -185,14 +185,15 @@
 						<Dropdown
 							bind:open={hoverDropMenu[value.AppMenuID]}
 							id="dropdownHover"
-							frameClass="z-20"
+							frameClass="z-20 hover:!text-white hover:!bg-primary-50"
 						>
 							{#each Object.entries(menus[key].childMenus) as [childKey, childValue]}
-								<div class="flex justify-between items-center mb-2 hover:!text-white hover:!bg-primary-50"
-							>
+								<div
+									class="group flex items-center mb-2 hover:!text-white hover:!bg-primary-50"
+								>
 									<a
-										href="#"
-										class=" mt-2 hover:!text-white hover:!bg-primary-50"
+										href={childValue.AppMenuActionURL}
+										class="!text-center !w-full hover:!text-white"
 										on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
 										on:mouseleave={() => closeDropdowns(childValue.AppMenuID)}
 									>
@@ -201,7 +202,7 @@
 
 									{#if childValue.child_Menus && childValue.child_Menus.length > 0}
 										<ChevronRightSolid
-											class="w-1.5 h-4 mr-2 !text-black hover:!text-white hover:!bg-primary-50"
+											class=" w-1.5 h-4 mr-2  !group-hover:!text-white"
 											on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
 										/>
 									{/if}
@@ -212,11 +213,14 @@
 									<Dropdown
 										bind:open={hoverDropMenus[childValue.AppMenuID]}
 										id={`dropdownHover${childValue.AppMenuID}`}
-										class="w-44 !z-20 bg-white-100 rounded-md shadow-md absolute top-[-35px] left-14 ml-10 hover:text-black"
+										class="mt-1 w-44 !z-20 bg-white-100 !rounded shadow-md absolute top-[-35px] left-14 ml-10 hover:text-black"
 									>
 										{#each childValue.child_Menus as secondLevelMenu}
-											<DropdownItem href={secondLevelMenu.AppMenuActionURL} class="!bg-white hover:!text-white hover:!bg-primary-50">
-												{secondLevelMenu.AppMenuLabel}
+											<DropdownItem
+												href={secondLevelMenu.AppMenuActionURL}
+												class="!bg-white !rounded !text-center hover:!text-white hover:!bg-primary-50"
+											>
+												{secondLevelMenu.AppMenuLabel} 
 											</DropdownItem>
 										{/each}
 									</Dropdown>
