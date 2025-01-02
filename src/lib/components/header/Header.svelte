@@ -164,7 +164,7 @@
 					<NavLi
 						id="nav-menu{value.AppMenuID}"
 						activeClass="!bg-primary-50 !text-primary-50 hover:!bg-primary-50"
-						class="group cursor-pointer  !p-1 text-black hover:!text-white hover:!bg-primary-50"
+						class="cursor-pointer  !p-1 text-black hover:!text-white hover:!bg-primary-50"
 						href={value.AppMenuActionURL}
 					>
 						{value.AppMenuLabel}
@@ -174,7 +174,7 @@
 						<NavLi
 							id="nav-menu{value.AppMenuID}"
 							activeClass="bg-primary-50 !text-primary-100 hover:bg-primary-50"
-							class="group cursor-pointer text-black !p-1 hover:!text-white hover:!bg-primary-50"
+							class="cursor-pointer text-black !p-1 hover:!text-white hover:!bg-primary-50"
 							href={value.AppMenuActionURL}
 							on:mouseover={() => changeDropdown(value.AppMenuID)}
 						>
@@ -185,15 +185,15 @@
 						<Dropdown
 							bind:open={hoverDropMenu[value.AppMenuID]}
 							id="dropdownHover"
-							frameClass="z-20 hover:!text-white hover:!bg-primary-50"
+							frameClass="z-20"
 						>
 							{#each Object.entries(menus[key].childMenus) as [childKey, childValue]}
 								<div
-									class="group flex items-center mb-2 hover:!text-white hover:!bg-primary-50"
+									class="flex items-center mb-2 hover:!text-white hover:!bg-primary-50"
 								>
 									<a
 										href={childValue.AppMenuActionURL}
-										class="!text-center !w-full hover:!text-white"
+										class="!text-center p-1 !w-full hover:!text-white"
 										on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
 										on:mouseleave={() => closeDropdowns(childValue.AppMenuID)}
 									>
@@ -202,7 +202,7 @@
 
 									{#if childValue.child_Menus && childValue.child_Menus.length > 0}
 										<ChevronRightSolid
-											class=" w-1.5 h-4 mr-2  !group-hover:!text-white"
+											class=" w-1.5 h-4 mr-2"
 											on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
 										/>
 									{/if}
@@ -213,12 +213,12 @@
 									<Dropdown
 										bind:open={hoverDropMenus[childValue.AppMenuID]}
 										id={`dropdownHover${childValue.AppMenuID}`}
-										class="mt-1 w-44 !z-20 bg-white-100 !rounded shadow-md absolute top-[-35px] left-14 ml-10 hover:text-black"
+										class="w-44 !z-20 bg-white-100 !rounded shadow-md absolute top-[-35px] left-14 ml-10 hover:text-black"
 									>
 										{#each childValue.child_Menus as secondLevelMenu}
 											<DropdownItem
 												href={secondLevelMenu.AppMenuActionURL}
-												class="!bg-white !rounded !text-center hover:!text-white hover:!bg-primary-50"
+												class="p-1 !bg-white !rounded !text-center hover:!text-white hover:!bg-primary-50"
 											>
 												{secondLevelMenu.AppMenuLabel} 
 											</DropdownItem>
