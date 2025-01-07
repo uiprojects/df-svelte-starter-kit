@@ -40,7 +40,7 @@
 
 <Header menus={data.appMenus} error={data.error} {user} />
 
-<div class="flex px-2 mx-auto w-full">
+<div class="flex px-2 mx-auto h-screen w-full bg-primary-400">
 	<main class={mainClass}>
 		<!-- Back to top button -->
 		<Button
@@ -68,14 +68,14 @@
 		<Alert color="red" class="mt-5 w-[60rem] m-auto mb-10">
 			<div class="flex items-center gap-3">
 				<InfoCircleSolid slot="icon" class="w-5 h-5" />
-				<span class="text-lg font-medium"
+				<span class="text-lg font-medium font-Nunito"
 					>Oops! It seems there has been an error, sorry about that :(</span
 				>
 			</div>
 			<p class="mt-2 mb-4 text-sm">
 			      {data.error}
 			</p>
-			<div class="flex gap-2">
+			<div class="flex gap-2 font-Nunito">
 				<Button size="xs" href="/" outline class="dark:!text-primary-800">Go to Home</Button>
 			</div>
 		</Alert>

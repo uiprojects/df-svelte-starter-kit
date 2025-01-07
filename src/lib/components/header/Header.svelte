@@ -20,10 +20,11 @@
 		SidebarDropdownItem,
 		CloseButton
 	} from 'flowbite-svelte';
-	import logo from '$lib/images/your-logo.png';
+	import logo from '$lib/images/DF-Logo.svg';
 	import './style.scss';
 	import { onMount } from 'svelte';
 	import { env } from '$env/dynamic/public';
+	import { ChevronRightSolid } from 'flowbite-svelte-icons';
 	export let user, menus, error;
 
 	// The PUBLIC_MENU_LOCATION env variable controls how the menu appears.
@@ -43,6 +44,7 @@
 	let width: number;
 	let activateClickOutside = true;
 	let hoverDropMenu: { [key: number]: boolean } = {};
+	let hoverDropMenus: { [key: number]: boolean } = {};
 
 	$: if (width >= breakPoint) {
 		drawerHidden = false;
@@ -71,6 +73,7 @@
 	};
 
 	onMount(() => {
+
 		if (width >= breakPoint) {
 			drawerHidden = false;
 			activateClickOutside = false;
@@ -83,6 +86,19 @@
 			document.removeEventListener('click', handleClickOutside);
 		};
 	});
+
+	const changeDropdowns = (appMenuID: number) => {
+		hoverDropMenus = {
+			[appMenuID]: true
+		};
+	};
+
+	//level 1 hover close
+	const closeDropdowns = (appMenuID: number) => {
+		hoverDropMenus = {
+			[appMenuID]: false
+		};
+	};
 </script>
 
 <svelte:window bind:innerWidth={width} />
@@ -92,7 +108,7 @@
 	let:toggle
 	color="primary"
 	navDivClass="flex flex-wrap items-center"
-	class="!py-0"
+	class="!py-0 font-sans !bg-white !shadow-2xl"
 	fluid={true}
 >
 	{#if env.PUBLIC_MENU_LOCATION == 'side'}
@@ -125,18 +141,18 @@
 		</Button>
 	{/if}
 
-	<img src={logo} class="h-10" alt="Logo" />
+	<img src={logo} class="h-12" alt="Logo" />
 
 	{#if env.PUBLIC_MENU_LOCATION == 'top'}
 		<NavHamburger on:click={toggle} btnClass="md:hidden bg-white" />
 		<NavUl
 			{hidden}
 			divClass="w-full md:flex md:w-auto p-0"
-			ulClass="flex flex-col bg-primary-100 p-2 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
+			ulClass="flex flex-col bg-white  p-2 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
 			style="margin-left: 10px;"
 		>
 			<NavLi
-				class="text-white  !p-1 hover:text-primary-100 text-sm"
+				class="text-white font-bold  !p-1 hover:text-primary-50 text-sm"
 				activeClass="bg-white !text-primary-100 hover:bg-white"
 				style="color: white;"
 				href="/"
@@ -147,31 +163,73 @@
 				{#if menus[key].childMenus && menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 					<NavLi
 						id="nav-menu{value.AppMenuID}"
-						activeClass="bg-white !text-primary-100 hover:bg-white"
-						class="group cursor-pointer  !p-1 text-white hover:!text-white"
+						activeClass="!bg-primary-50 !text-primary-50 hover:!bg-primary-50"
+						class="cursor-pointer  !p-1 text-black hover:!text-white hover:!bg-primary-50"
 						href={value.AppMenuActionURL}
 					>
 						{value.AppMenuLabel}
 					</NavLi>
 				{:else if menus[key].ParenAppMenuID == 0}
-					<NavLi
-						id="nav-menu{value.AppMenuID}"
-						activeClass="bg-white !text-primary-100 hover:bg-white"
-						class="cursor-pointer !p-1 text-white hover:!text-white"
-						href={value.AppMenuActionURL}
-						on:mouseover={() => changeDropdown(value.AppMenuID)}
-					>
-						<Chevron aligned>
-							{value.AppMenuLabel}
-						</Chevron>
-					</NavLi>
-					<Dropdown bind:open={hoverDropMenu[value.AppMenuID]} id="dropdownHover" frameClass="z-20">
-						{#each Object.entries(menus[key].childMenus) as [key, value]}
-							<DropdownItem href={value.AppMenuActionURL}>
+					<div class="relative">
+						<NavLi
+							id="nav-menu{value.AppMenuID}"
+							activeClass="bg-primary-50 !text-primary-100 hover:bg-primary-50"
+							class="cursor-pointer text-black !p-1 hover:!text-white hover:!bg-primary-50"
+							href={value.AppMenuActionURL}
+							on:mouseover={() => changeDropdown(value.AppMenuID)}
+						>
+							<Chevron aligned>
 								{value.AppMenuLabel}
-							</DropdownItem>
-						{/each}
-					</Dropdown>
+							</Chevron>
+						</NavLi>
+						<Dropdown
+							bind:open={hoverDropMenu[value.AppMenuID]}
+							id="dropdownHover"
+							frameClass="z-20"
+						>
+							{#each Object.entries(menus[key].childMenus) as [childKey, childValue]}
+								<div
+									class="flex items-center mb-2 hover:!text-white hover:!bg-primary-50"
+								>
+									<a
+										href={childValue.AppMenuActionURL}
+										class="!text-center p-1 !w-full hover:!text-white"
+										on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
+										on:mouseleave={() => closeDropdowns(childValue.AppMenuID)}
+									>
+										{childValue.AppMenuLabel}
+									</a>
+
+									{#if childValue.child_Menus && childValue.child_Menus.length > 0}
+										<ChevronRightSolid
+											class=" w-1.5 h-4 mr-2"
+											on:mouseover={() => changeDropdowns(childValue.AppMenuID)}
+										/>
+									{/if}
+								</div>
+
+								<!-- Add more conditions or levels as needed -->
+								{#if childValue.child_Menus && childValue.child_Menus.length > 0}
+									<Dropdown
+										bind:open={hoverDropMenus[childValue.AppMenuID]}
+										id={`dropdownHover${childValue.AppMenuID}`}
+										class="w-44 !z-20 bg-white-100 !rounded shadow-md absolute top-[-35px] left-14 ml-10 hover:text-black"
+									>
+										{#each childValue.child_Menus as secondLevelMenu}
+											<DropdownItem
+												href={secondLevelMenu.AppMenuActionURL}
+												class="p-1 !bg-white !rounded !text-center hover:!text-white hover:!bg-primary-50"
+											>
+												{secondLevelMenu.AppMenuLabel} 
+											</DropdownItem>
+										{/each}
+									</Dropdown>
+								{/if}
+							{/each}
+
+							<!-- </DropdownItem> -->
+						</Dropdown>
+					</div>
 				{/if}
 			{/each}
 		</NavUl>
@@ -179,11 +237,11 @@
 
 	<div
 		class="flex ml-auto items-center acs"
-		style="padding: 6px 14px 6px 10px; background-color: rgba(255, 255, 255, 0.4); cursor: pointer; min-width: 125px;"
+		style="padding: 6px 14px 6px 10px; background-color: #bfeded; cursor: pointer; min-width: 125px;"
 	>
 		<Avatar rounded-border size="xs" />
 		&nbsp; &nbsp;
-		<p class="text-sm text-white">{user.UserName}</p>
+		<p class="text-sm text-black">{user.UserName}</p>
 	</div>
 	<Dropdown triggeredBy=".acs" frameClass="z-50">
 		<div slot="header" class="px-4 py-2">
@@ -229,14 +287,14 @@
 		bind:activateClickOutside
 		bgColor=""
 		width="w-56"
-		divClass="overflow-y-auto bg-primary-100"
-		class="overflow-auto p-0"
+		divClass="overflow-y-auto bg-white"
+		class="overflow-auto p-0 font-Sen"
 		id="sidebar"
 	>
 		<div class="flex items-center">
 			<CloseButton
 				on:click={() => (drawerHidden = true)}
-				class="mb-4 text-white dark:text-white lg:hidden hover:!bg-primary-100"
+				class="mb-4 text-black dark:text-white lg:hidden hover:!bg-primary-50"
 			/>
 		</div>
 		<Sidebar asideClass="w-56">
@@ -253,7 +311,7 @@
 					<SidebarItem
 						label="Home"
 						href="/"
-						class="text-white text-sm py-2 px-2 hover:text-primary-100"
+						class="text-black text-sm py-2 px-2 hover:text-white hover:bg-primary-50  active:bg-primary-50"
 					>
 						<svelte:fragment slot="icon">
 							<svg
@@ -265,7 +323,7 @@
 								class="w-4 h-4"
 							>
 								<path
-									fill="white"
+									fill="currentcolor"
 									stroke-linecap="round"
 									stroke-linejoin="round"
 									d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"
@@ -280,10 +338,10 @@
 						{#if menus[key].childMenus.length == 0 && menus[key].ParenAppMenuID == 0}
 							<SidebarItem
 								label={value.AppMenuLabel}
-								class="text-white hover:text-primary-100 text-sm"
+								class="text-black hover:text-white  hover:bg-primary-50   text-sm"
 								id="nav-menu{value.AppMenuID}"
-								activeClass="bg-white !text-primary-100
-								hover:bg-white"
+								activeClass="bg-primary-50 !text-white
+								hover:bg-primary-50"
 								href={value.AppMenuActionURL}
 							>
 								{value.AppMenuLabel}
@@ -292,22 +350,30 @@
 							<SidebarDropdownWrapper
 								id="nav-menu{value.AppMenuID}"
 								label={value.AppMenuLabel}
-								class="text-white hover:text-primary-100 text-sm"
-								activeClass="bg-white !text-primary-100 hover:bg-white"
+								class="text-black group hover:text-white hover:bg-primary-50 text-sm"
+								activeClass="bg-primary-50 !text-white  hover:bg-primary-50"
 								href={value.AppMenuActionURL}
 							>
 								<svelte:fragment slot="arrowup">
-									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 512 512">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="w-4 h-4 !text-black group-hover:!text-white"
+										viewBox="0 0 512 512"
+									>
 										<path
-											fill="white"
+											fill="currentcolor"
 											d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"
 										/>
 									</svg>
 								</svelte:fragment>
 								<svelte:fragment slot="arrowdown">
-									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 512 512">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="w-4 h-4 !text-black group-hover:!text-white"
+										viewBox="0 0 512 512"
+									>
 										<path
-											fill="white"
+											fill="currentcolor"
 											d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
 										/>
 									</svg>
@@ -315,9 +381,9 @@
 								{#each Object.entries(menus[key].childMenus) as [key, value]}
 									<SidebarDropdownItem
 										label={value.AppMenuLabel}
-										class="text-white hover:text-primary-100 text-sm"
+										class="text-black hover:text-white hover:bg-primary-50 text-sm"
 										id="nav-menu{value.AppMenuID}"
-										activeClass="bg-white !text-primary-100 hover:bg-white"
+										activeClass="bg-primary-50 !text-white hover:bg-primary-50"
 										href={value.AppMenuActionURL}
 									/>
 								{/each}
@@ -328,14 +394,14 @@
 			</SidebarWrapper>
 		</Sidebar>
 		<div class="ubti-footer">
-			<strong>Powered by <a href="https://ubtiinc.com/" style="color: white;">UBTI</a></strong>
+			<strong>Powered by <a href="https://ubtiinc.com/" class="text-black">UBTI</a></strong>
 			<br />
 			© {new Date().getFullYear()} UB Technology Innovations, Inc.
 		</div>
 	</Drawer>
 {:else}
-	<div class="ubti-footer">
-		<strong>Powered by <a href="https://ubtiinc.com/" style="color: white;">UBTI</a></strong>
+	<div class="ubti-footer !bg-white">
+		<strong>Powered by <a href="https://ubtiinc.com/" class="text-black">UBTI</a></strong>
 		<br />
 		© {new Date().getFullYear()} UB Technology Innovations, Inc.
 	</div>

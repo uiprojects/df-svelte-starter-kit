@@ -2,7 +2,6 @@
 	import Login from '$lib/components/login/Login.svelte';
 	import { MessageManager } from '$lib/common/MessageManager';
 	
-
 	export let data;
 
 	let loading = false;
@@ -10,7 +9,6 @@
 	let userCookie: string;
 
 	if (data.userNameCookie != null) {
-		username.set(data.userNameCookie);
 		userCookie = data.userNameCookie;
 	}
 
