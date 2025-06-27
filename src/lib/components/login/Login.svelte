@@ -91,7 +91,7 @@
 			auth: {
 				clientId: authenticationTypeList.ClientOrAppIDConfig,
 				authority: `https://login.microsoftonline.com/common`,
-				redirectUri: window.location.origin + '/login'
+				redirectUri: authenticationTypeList.AppEnvironmentURL + '/auth/login'
 			},
 			cache: {
 				cacheLocation: 'sessionStorage',

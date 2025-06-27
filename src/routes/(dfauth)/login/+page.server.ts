@@ -10,13 +10,12 @@ export const load = async ({ cookies }) => {
 		const client = new DiligenceFabricClient();
 
 		const AuthenticationTypeList = {
-			TenantID: undefined,
-			AuthenticationTypeCode: 'MS',
-			CalledBy: undefined
+			AppID: Number(env.DF_APP_ID),
+			TenantID: Number(env.DF_TENANT_ID),
+			AppEnvironmentCODE: env.DF_AppEnvironmentCODE
 		}
 
-		authenticationTypeResponse = await client.getAuthenticationTypeService().getAuthenticationType(AuthenticationTypeList)
-
+		authenticationTypeResponse = await client.getAuthenticationTypeService().getAuthenticationDownStreamType(AuthenticationTypeList);
 	}
 	catch (error) {
 		logger.log('Error', 'Load', 'Error Retrieiving auht type' + JSON.stringify(error))
